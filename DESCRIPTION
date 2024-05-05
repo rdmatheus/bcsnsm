@@ -31,9 +31,13 @@ Imports:
     GIGrvg,
     mvnfast,
     Rcpp (>= 1.0.11),
-    Rfast
+    Rfast,
+    sfsmisc
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
            RcppNumerical
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
+LazyData: true
