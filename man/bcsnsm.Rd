@@ -67,68 +67,37 @@ Fit a multivariate BCS-NSM distribution via maximum likelihood for positive cont
 }
 \examples{
 \dontrun{
-## Random sampling
+# Winscosin Breast Cancer Dataset
+?wdbc
 
-### Sample size and dimension
-n <- 200
-d <- 4
+# Training set index
+set.seed(123)
+id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 
-### Association matrix
-Gamma <- matrix(0.8, d, d)
-diag(Gamma) <- 1
+# Reference model
+fit0 <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
+                  data = wdbc[id, ])
+fit0
 
-### Marginal specifications
+## Marginal quantile residuals of the reference model
+plot(fit0, "marginal", panel = c(2, 3))
 
-margins <- c("bcno", "lt", "bct", "lno")
+# Improve the fit on margins
+fit_gaussian <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
+                          data = wdbc[id, ], margins = c("lt", "lt", "lno", "lpe", "bct"))
 
-mu <- c(19, 20, 15, 20)
-sigma <- c(0.2, 0.3, 0.4, 0.3)
-lambda <- c(-1, NA, 1.6, NA)
-nu <- c(NA, 4, 8, NA)
+## Marginal quantile residuals of the improved model
+plot(fit_gaussian, "marginal", panel = c(2, 3))
 
-### Copula
-copula <- "t"
-eta <- 0.8
 
-### Observations
-set.seed(123) # Seed for reproducibility
-y <- rbcsnsm(n, mu, sigma, lambda, nu, Gamma, copula, eta, margins)
-colnames(y) <- c("y1", "y2", "y3", "y4")
+## Summary
+summary(fit_gaussian)
 
-### Visualization (based on graphics::pairs functions)
-mvplot(y)
+## Overall quantile residuals of the final model
+plot(fit_gaussian)
 
-## Fit with Gaussian copula and uniform structure
-fit <- bcsnsm(y, association = "uniform", copula = "gaussian",
-              margins = c("bcno", "lt", "bct", "lno"))
-
-class(fit)
-methods(class = "bcnsm")
-
-# Fit summaries
-fit
-summary(fit)
-
-# Fit visualization
-
-## Bivariate fit
-plot(fit)
-
-## Marginal fit
-plot(fit, type = "margins")
-
-## Transformed vectors
-plot(fit, "epsilon")
-
-# Choose the value of the extra parameter of the t copula (it can be slow)
-fit_t <- choose_copula(fit, grid = 1:8, copula = "t")
-
-## Final fit
-final_fit <- fit_t[[4]]
-
-final_fit
-plot(final_fit)
-plot(final_fit, type = "margins")
+## The epsilon's transformations
+plot(fit_gaussian, "epsilon")
 }
 }
 \references{
