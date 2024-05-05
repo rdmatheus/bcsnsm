@@ -20,6 +20,7 @@ Description: A comprehensive framework for analyzing multivariate positive conti
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 
+    crayon,
     distr,
     gamlss,
     gamlss.dist,
