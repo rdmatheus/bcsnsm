@@ -1,0 +1,38 @@
+#' Macronutrients Intake
+#'
+#' A subset of a study conducted by Ferreira et al. (2014) on the nutrient intake patterns of
+#'     older adults in Botucatu, São Paulo, Brazil. The dependent variables consist of the
+#'     macronutrient intake based on the first 24-h dietary recall interview, where each sampling
+#'     unit provides a vector with dimension 6 with the intake of animal protein, plant protein,
+#'     fiber, carbohydrate, total fat, and cholesterol. The dataset also provides socioeconomic
+#'     variables.
+#'
+#' @format 
+#' 
+#' A data frame with 322 rows and 11 columns:
+#' \describe{
+#'   \item{animal_p}{Intake of animal protein, in \emph{g}.}
+#'   \item{plant_p}{Intake of plant protein, in \emph{g}.}
+#'   \item{fiber}{Intake of fiber, in \emph{g}.}
+#'   \item{carb}{Intake of carbohydrate, in \emph{g}.}
+#'   \item{total_fat}{Intake of total fat, in \emph{g}.}
+#'   \item{cholesterol}{Intake of cholesterol, in \emph{mg}.}
+#'   \item{gender}{Gender, categorized into \code{Female} and \code{Male}.}
+#'   \item{age}{Age, in years.}
+#'   \item{education}{Education leve, categorized into \code{illiterate_elementary} 
+#'   (illiterate or elementary) and \code{high_university} (high or university).}
+#'   \item{income}{Income, categorized into \code{I} (between BRL 0 and BRL 1800);
+#'                 \code{II} (between BRL 1800 and BRL 2600); III (between BRL 2600 and BRL 4000);
+#'                  and IV (above BRL 4000).}
+#'   \item{npeople}{The number of persons living in the household.}
+#' }
+#'
+#' @references
+#'
+#' Ferreira, P. M., Papini, S. J., and Corrente, J. E. (2014). Diversity of eating patterns in older
+#'     adults: A new scenario? \emph{Revista de Nutrição}, \bold{27}, 67–79.
+#'
+#'
+#' @examples
+#' mvplot(macronutrients[, 1:6])
+"macronutrients"
