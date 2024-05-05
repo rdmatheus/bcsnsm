@@ -18,9 +18,11 @@ Description: A comprehensive framework for analyzing multivariate positive conti
     models. This setting allows modeling d-dimensional positive continuous data as a function of
     explanatory variables.
 License: GPL (>= 3)
-Imports: Rcpp (>= 1.0.11)
+Encoding: UTF-8
+Imports: 
+    Rcpp (>= 1.0.11)
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
            RcppNumerical
-
+RoxygenNote: 7.2.3
