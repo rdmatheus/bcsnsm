@@ -8,12 +8,12 @@
 #'
 #' @format A data frame with 556 rows and 6 columns:
 #' \describe{
-#'   \item{Texture}{average variation in gray levels within boundaries.}
-#'   \item{Area}{average nucleus area of the cells.}
-#'   \item{Smoothness}{average local variation of radial segments.}
-#'   \item{Compactness}{average cell nucleus compactness, calculated as perimeter^2 / area - 1}
-#'   \item{Concavity}{average severity of concave portions of the contour}
-#'   \item{Diagnosis}{cancer diagnosis: \code{M = malignant, B = benign}.}
+#'   \item{texture}{average variation in gray levels within boundaries.}
+#'   \item{area}{average nucleus area of the cells.}
+#'   \item{smoothness}{average local variation of radial segments.}
+#'   \item{compactness}{average cell nucleus compactness, calculated as perimeter^2 / area - 1}
+#'   \item{concavity}{average severity of concave portions of the contour}
+#'   \item{diagnosis}{cancer diagnosis: \code{M = malignant, B = benign}.}
 #' }
 #'
 #' @source The Breast Cancer Wisconsin (Diagnostic) Data Set
