@@ -22,6 +22,7 @@ Encoding: UTF-8
 Imports: 
     crayon,
     distr,
+    Formula,
     gamlss,
     gamlss.dist,
     GGally,
