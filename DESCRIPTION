@@ -24,8 +24,11 @@ Imports:
     distr,
     gamlss,
     gamlss.dist,
+    ghyp,
     GIGrvg,
-    Rcpp (>= 1.0.11)
+    mvnfast,
+    Rcpp (>= 1.0.11),
+    Rfast
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
