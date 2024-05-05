@@ -24,6 +24,8 @@ Imports:
     distr,
     gamlss,
     gamlss.dist,
+    GGally,
+    ggplot2,
     ghyp,
     GIGrvg,
     mvnfast,
