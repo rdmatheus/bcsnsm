@@ -20,6 +20,8 @@ Description: A comprehensive framework for analyzing multivariate positive conti
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 
+    gamlss,
+    gamlss.dist,
     Rcpp (>= 1.0.11)
 LinkingTo: Rcpp,
            RcppArmadillo,
