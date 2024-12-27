@@ -19,7 +19,7 @@
 #' set.seed(123)
 #' id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 #' 
-#' # BCNSM regression
+#' # BCS-NSM regression
 #' fit <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
 #'                  data = wdbc[id, ], margins = c("lt", "lt", "lno", "lpe", "bct"))
 #' 
@@ -54,7 +54,7 @@ bcsnsmclass <- function(object, test, cl){
   if (object$association == "non-associative"){
     Gamma <- diag(d)
   }else{
-    Gamma <- get(tolower(object$association), envir = parent.frame())(d)$Gamma(round(object$gamma, 4))
+    Gamma <- get(tolower(object$association), envir = asNamespace("bcsnsm"))(d)$Gamma(round(object$gamma, 4))
   }
 
   mu <- object$marginal.pars$mu

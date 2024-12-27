@@ -13,8 +13,8 @@ with some options of association matrices for dependence modeling.
 
 ## Installation
 
-The development version of the `bcnsm` package is hosted on
-[GitHub](https://github.com/rdmatheus/bcnsm). The installation of the
+The development version of the `bcsnsm` package is hosted on
+[GitHub](https://github.com/rdmatheus/bcsnsm). The installation of the
 package can be done using the `devtools` package. If it has not been
 previously installed, it can be added by executing the following command
 in the `R` environment: `install.packages("devtools")`.
@@ -23,7 +23,7 @@ After installing the `devtools` package, if one is using *Windows*, it
 may be necessary to install the current version of the `RTools` program,
 available for download [at
 here](https://cran.r-project.org/bin/windows/Rtools). Finally, the
-development version of the `bcnsm` can be installed by executing the
+development version of the `bcsnsm` can be installed by executing the
 following command:
 
 ``` r

@@ -2,7 +2,7 @@
 % Please edit documentation in R/07_bcsnsm_methods.R
 \name{plot.bcsnsm}
 \alias{plot.bcsnsm}
-\title{Visualization of the fit of the BCNSM distributions}
+\title{Visualization of the fit of the BCS-NSM distributions}
 \usage{
 \method{plot}{bcsnsm}(
   x,
@@ -34,7 +34,7 @@ the figures will be drawn in an \code{nr-}by\code{-nc} array on the device.}
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Visualization of the fit of the BCNSM distributions
+Visualization of the fit of the BCS-NSM distributions
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

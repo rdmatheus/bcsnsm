@@ -285,14 +285,14 @@ residuals.bcsnsmreg <- function(object, type = c("quantile", "marginal", "mahala
   for(j in 1:d){
 
     epsilon[, j] <- qPSI(pmin(pmax(
-      get(paste0("p", margins[j]), envir = parent.frame())(y[, j], mu = mu[, j],
+      get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(y[, j], mu = mu[, j],
                                                            sigma = sigma[j], lambda = lambda[j],
                                                            nu = nu[j]),
       EPS), 1 - EPS))
 
 
     rm[, j] <- stats::qnorm(pmin(pmax(
-      get(paste0("p", margins[j]), envir = parent.frame())(as.matrix(y[, j]), mu = mu[, j],
+      get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(as.matrix(y[, j]), mu = mu[, j],
                                                            sigma = sigma[j], lambda = lambda[j],
                                                            nu = nu[j]), EPS), 1 - EPS))
 
@@ -301,7 +301,7 @@ residuals.bcsnsmreg <- function(object, type = c("quantile", "marginal", "mahala
   colnames(epsilon) <- colnames(rm) <- colnames(y)
 
   association <- if (object$association == "non-associative") "nonassociative" else object$association
-  Gamma <- get(association, envir = parent.frame())(d)$Gamma(object$gamma)
+  Gamma <- get(association, envir = asNamespace("bcsnsm"))(d)$Gamma(object$gamma)
 
   # Squared Mahalanobis distance
   mahalanobis <- mahalanobis(epsilon, rep(0L, d), Gamma)
@@ -399,7 +399,7 @@ print.bcsnsmreg <- function(x, digits = max(3, getOption("digits") - 3), ...)
       if (x$association == "non-associative"){
         Gamma <- diag(d)
       }else{
-        Gamma <- get(tolower(x$association), envir = parent.frame())(d)$Gamma(round(gamma, digits))
+        Gamma <- get(tolower(x$association), envir = asNamespace("bcsnsm"))(d)$Gamma(round(gamma, digits))
       }
 
       Gamma[upper.tri(Gamma)] <- diag(Gamma) <- NA
@@ -497,7 +497,7 @@ summary.bcsnsmreg <- function(object, ...)
     if (object$association == "non-associative"){
       Gamma <- diag(d)
     }else{
-      Gamma <- get(tolower(object$association), envir = parent.frame())(d)$Gamma(gamma)
+      Gamma <- get(tolower(object$association), envir = asNamespace("bcsnsm"))(d)$Gamma(gamma)
     }
 
     Gamma[upper.tri(Gamma)] <- diag(Gamma) <- NA
@@ -567,7 +567,7 @@ print.summary.bcsnsmreg <- function(x, digits = max(3, getOption("digits") - 3),
   for (j in 1:d) {
 
     cat("\n", crayon::cyan(colnames(y)[j]), crayon::cyan(" ~ "),
-        crayon::cyan(get(x$margins[j], envir = parent.frame())()$name),
+        crayon::cyan(get(x$margins[j], envir = asNamespace("bcsnsm"))()$name),
         crayon::cyan(" Distribution:\n"), sep = "")
 
 
@@ -647,7 +647,7 @@ plot.bcsnsmreg <- function(x, type = c("quantile", "marginal", "mahalanobis", "e
   copula <- x$copula
   eta <- x$eta
   association <- if (x$association == "non-associative") "nonassociative" else x$association
-  Gamma <- get(association, envir = parent.frame())(d)$Gamma(x$gamma)
+  Gamma <- get(association, envir = asNamespace("bcsnsm"))(d)$Gamma(x$gamma)
   mcopula <- make_copula(copula, eta / (1 - eta))
 
   dPSI <- mcopula$dPSI

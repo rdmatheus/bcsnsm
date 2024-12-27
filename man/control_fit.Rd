@@ -15,7 +15,7 @@ specifically that published simultaneously in 1970 by Broyden, Fletcher, Goldfar
 
 \item{hessian}{logical. Should a numerically differentiated Hessian matrix be returned?}
 
-\item{inits}{an optional vector with starting values for all parameters for fitting a BCNSM
+\item{inits}{an optional vector with starting values for all parameters for fitting a BCS-NSM
 distribution. It must be passed in the order: \code{(mu, sigma, lambda, nu, gamma)}, where
 \code{mu}, \code{sigma}, \code{lambda}, and \code{nu} are parameters associated with marginal
 distributions and \code{gamma} are parameters related to the association matrix.}

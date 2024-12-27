@@ -72,6 +72,7 @@ NULL
 #' @rdname bcno
 #' @export
 dbcno <- function(x, mu, sigma, lambda, log = FALSE, ...) {
+  
   if (is.matrix(x)) d <- ncol(x) else d <- 1L
 
   maxl <- max(c(length(x), length(mu), length(sigma), length(lambda)))

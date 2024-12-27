@@ -190,7 +190,7 @@ residuals.bcsnsm <- function(object, type = c("mahalanobis", "epsilon"), ...) {
 
   for (j in 1:d) {
 
-    epsilon[, j] <- qPSI(get(paste0("p", margins[j]), envir = parent.frame())(q = y[, j],
+    epsilon[, j] <- qPSI(get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(q = y[, j],
                                                       mu = mu[j],
                                                       sigma = sigma[j],
                                                       lambda = lambda[j],
@@ -202,7 +202,7 @@ residuals.bcsnsm <- function(object, type = c("mahalanobis", "epsilon"), ...) {
   colnames(epsilon) <- colnames(y)
   
   association <- if (object$association == "non-associative") "nonassociative" else object$association
-  Gamma <- get(association, envir = parent.frame())(d)$Gamma(object$gamma)
+  Gamma <- get(association, envir = asNamespace("bcsnsm"))(d)$Gamma(object$gamma)
 
   # Squared Mahalanobis distance
   mahalanobis <- Rfast::mahala(epsilon, rep(0L, d), Gamma)
@@ -289,7 +289,7 @@ print.bcsnsm <- function(x, digits = max(3, getOption("digits") - 3), ...){
       cat(crayon::cyan("\n", sub("(.)", "\\U\\1", x$association, perl = TRUE),
                        " association matrix:\n\n", sep = ""))
 
-      Gamma <- get(x$association, envir = parent.frame())(d)$Gamma(round(x$gamma, digits))
+      Gamma <- get(x$association, envir = asNamespace("bcsnsm"))(d)$Gamma(round(x$gamma, digits))
       Gamma[upper.tri(Gamma)] <- diag(Gamma) <- NA
       colnames(Gamma) <- rownames(Gamma) <- colnames(y)
       print(Gamma, na.print = ".", digits = digits)
@@ -376,7 +376,7 @@ summary.bcsnsm <- function(object, ...){
     if (object$association == "non-associative"){
       Gamma <- diag(d)
     }else{
-      Gamma <- get(tolower(object$association), envir = parent.frame())(d)$Gamma(gamma)
+      Gamma <- get(tolower(object$association), envir = asNamespace("bcsnsm"))(d)$Gamma(gamma)
     }
 
     Gamma[upper.tri(Gamma)] <- diag(Gamma) <- NA
@@ -445,7 +445,7 @@ print.summary.bcsnsm <- function(x, digits = max(3, getOption("digits") - 3), ..
 
   for (j in 1:d) {
 
-    cat(y_names[j], " ~ ", get(x$margins[j])()$name, " Distribution:\n", sep = "")
+    cat(y_names[j], " ~ ", get(x$margins[j], envir = asNamespace("bcsnsm"))()$name, " Distribution:\n", sep = "")
 
     TAB <- round(rbind(
       x$mu[j, ],
@@ -481,7 +481,7 @@ print.summary.bcsnsm <- function(x, digits = max(3, getOption("digits") - 3), ..
 
 globalVariables(c("theo", "emp", "marg", "grid_x", "grid_y", "prob", "density"))
 # Plot
-#' Visualization of the fit of the BCNSM distributions
+#' Visualization of the fit of the BCS-NSM distributions
 #'
 #'
 #'
@@ -532,7 +532,7 @@ plot.bcsnsm <- function(x, type = c("response", "marginal", "epsilon"),
   if (is.null(panel)) panel <- c(ceiling(d / 4), 4)
 
   association <- if (x$association == "non-associative") "nonassociative" else x$association
-  Gamma <- get(association, envir = parent.frame())(d)$Gamma(x$gamma)
+  Gamma <- get(association, envir = asNamespace("bcsnsm"))(d)$Gamma(x$gamma)
 
   mcopula <- make_copula(copula, eta / (1 - eta))
 
@@ -560,7 +560,7 @@ plot.bcsnsm <- function(x, type = c("response", "marginal", "epsilon"),
       xid <- which(colSums(y_aux - x) == 0)
 
       dBCS <- function(x) {
-        get(paste0("d", margins[xid]))(x,
+        get(paste0("d", margins[xid]), envir = asNamespace("bcsnsm"))(x,
                                        mu = mu[xid],
                                        sigma = sigma[xid],
                                        lambda = lambda[xid],
@@ -675,7 +675,7 @@ plot.bcsnsm <- function(x, type = c("response", "marginal", "epsilon"),
     ks <- vector()
     for(j in 1:d){
 
-      theo_CDF[ , j] <- get(paste0("p", margins[j]), envir = parent.frame())(q = y[, j],
+      theo_CDF[ , j] <- get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(q = y[, j],
                                                      mu = mu[j],
                                                      sigma = sigma[j],
                                                      lambda = lambda[j],

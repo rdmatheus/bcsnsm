@@ -62,7 +62,7 @@ Student's t (\code{"t"}), slash (\code{"slash"}), and hyperbolic (\code{"hyp"}).
 
 \item{margins}{a character or a character vector; specifies the marginal BCS distributions. If all
 BCS margins are the same, it is sufficient to enter only one character. A table with the
-current available BCS distributions can be seen in \code{\link[bcnsm]{bcs}}.}
+current available BCS distributions can be seen in \code{\link[bcsnsm]{bcs}}.}
 
 \item{log}{logical; if \code{TRUE}, probabilities \code{p} are given
 as \code{log(p)}.}

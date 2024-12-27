@@ -10,7 +10,7 @@
 #'     specifically that published simultaneously in 1970 by Broyden, Fletcher, Goldfarb and Shanno.
 #' @param maxit the maximum number of iterations of the algorithm. Defaults to \code{2000}.
 #' @param hessian logical. Should a numerically differentiated Hessian matrix be returned?
-#' @param inits an optional vector with starting values for all parameters for fitting a BCNSM
+#' @param inits an optional vector with starting values for all parameters for fitting a BCS-NSM
 #'     distribution. It must be passed in the order: \code{(mu, sigma, lambda, nu, gamma)}, where
 #'     \code{mu}, \code{sigma}, \code{lambda}, and \code{nu} are parameters associated with marginal
 #'     distributions and \code{gamma} are parameters related to the association matrix.

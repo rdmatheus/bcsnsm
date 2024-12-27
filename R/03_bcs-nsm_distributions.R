@@ -29,7 +29,7 @@
 #'     \code{eta} / (1 - \code{eta}) degrees of freedom.
 #' @param margins a character or a character vector; specifies the marginal BCS distributions. If all
 #'     BCS margins are the same, it is sufficient to enter only one character. A table with the
-#'     current available BCS distributions can be seen in \code{\link[bcnsm]{bcs}}.
+#'     current available BCS distributions can be seen in \code{\link[bcsnsm]{bcs}}.
 #' @param log logical; if \code{TRUE}, probabilities \code{p} are given
 #'     as \code{log(p)}.
 #'
@@ -177,13 +177,13 @@ dbcsnsm <- function(x, mu, sigma, lambda, nu = NULL, Gamma = diag(ncol(x)),
   w <- log_f <- matrix(NA, n, d)
   for (j in 1:d) {
 
-    w[, j] <- pmin(pmax(get(paste0("p", margins[j]))(q = x[, j],
+    w[, j] <- pmin(pmax(get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(q = x[, j],
                                                      mu = mu[, j],
                                                      sigma = sigma[, j],
                                                      lambda = lambda[, j],
                                                      nu = nu[j]), EPS), 1 - EPS)
 
-    log_f[, j] <- get(paste0("d", margins[j]))(x = x[, j],
+    log_f[, j] <- get(paste0("d", margins[j]), envir = asNamespace("bcsnsm"))(x = x[, j],
                                                mu = mu[, j],
                                                sigma = sigma[, j],
                                                lambda = lambda[, j],
@@ -248,7 +248,7 @@ rbcsnsm <- function(n, mu, sigma, lambda, nu, Gamma = diag(ncol(x)),
   x <- matrix(NA, n, d)
   for (j in 1:d) {
 
-    x[, j] <- get(paste0("q", margins[j]))(p = w[, j],
+    x[, j] <- get(paste0("q", margins[j]), envir = asNamespace("bcsnsm"))(p = w[, j],
                                            mu = mu[, j],
                                            sigma = sigma[, j],
                                            lambda = lambda[, j],

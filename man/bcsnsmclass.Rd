@@ -28,7 +28,7 @@ BCS-NSM Classification
 set.seed(123)
 id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 
-# BCNSM regression
+# BCS-NSM regression
 fit <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
                  data = wdbc[id, ], margins = c("lt", "lt", "lno", "lpe", "bct"))
 

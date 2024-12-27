@@ -36,7 +36,7 @@
 #'     \code{(0, 1)}. For instance, under the \emph{t} copula, \code{eta} specifies
 #'     \code{eta} / (1 - \code{eta}) degrees of freedom. To estimate the value of \code{eta}
 #'     via profile log-likelihood, use the function \code{\link{choose_copula}}.
-#' @param control  a list of optimization control arguments specified via \code{\link{control_fit}}  .
+#' @param control  a list of optimization control arguments specified via \code{\link{control_fit}}.
 #' @param ... further optimization control arguments passed to \code{\link{control_fit}}.
 #'
 #' @return The \code{bcsnsmreg} function returns an object of class "\code{bcsnsmreg}",
@@ -78,7 +78,7 @@
 #'       \code{x1} and \code{x2}; \code{y2} as a function of \code{x1} and \code{x3}; and \code{y3}
 #'       as a function of \code{x2} and \code{x3}.
 #'
-#'    For the \code{default} method, the \code{bcnsm} function fits a BCS-NSM distribution without
+#'    For the \code{default} method, the \code{bcsnsm} function fits a BCS-NSM distribution without
 #'       regression structures. It returns a list with the same components as the \code{formula}
 #'       method, except for the \code{coefficients}, \code{links}, \code{formula}, and \code{terms}
 #'       components, which are set to NULL. The \code{y} argument represents a \code{data.frame} or
@@ -98,7 +98,7 @@
 #' id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 #'
 #' # Reference model
-#' fit0 <- bcnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+#' fit0 <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
 #'                  data = wdbc, subset = id)
 #' fit0
 #'
@@ -106,7 +106,7 @@
 #' plot(fit0, "marginal", panel = c(2, 3))
 #'
 #' # Improve the fit on margins
-#' fit_gaussian <- bcnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+#' fit_gaussian <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
 #'                          data = wdbc, subset = id, margins = c("lt", "lt", "lno", "lpe", "bct"))
 #'
 #' ## Marginal quantile residuals of the improved model
@@ -208,7 +208,7 @@ bcsnsmreg <- function(formula, data, subset, na.action,
   dgf <- mcopula$dgf
 
   association <- match.arg(association, c("unstructured", "uniform", "nonassociative"))
-  association <- get(association, envir = parent.frame())(d)
+  association <- get(association, envir = asNamespace("bcsnsm"))(d)
 
   ## Optimization ----
 
@@ -330,13 +330,13 @@ bcsnsmreg <- function(formula, data, subset, na.action,
       epsilon <- log_f <- matrix(NA, n, d)
       for(j in 1:d){
 
-        epsilon[, j] <- qPSI(pmin(pmax(get(paste0("p", margins[j]), envir = parent.frame())(q = y[, j],
+        epsilon[, j] <- qPSI(pmin(pmax(get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(q = y[, j],
                                                                     mu = mu[, j],
                                                                     sigma = sigma[j],
                                                                     lambda = lambda[j],
                                                                     nu = nu[j]), EPS), 1 - EPS))
 
-        log_f[, j] <- get(paste0("d", margins[j]), envir = parent.frame())(x = y[, j],
+        log_f[, j] <- get(paste0("d", margins[j]), envir = asNamespace("bcsnsm"))(x = y[, j],
                                                    mu = mu[, j],
                                                    sigma = sigma[j],
                                                    lambda = lambda[j],
@@ -391,7 +391,7 @@ bcsnsmreg <- function(formula, data, subset, na.action,
 
   ### Fitted values (fitted marginal medians)
   fv <- matrix(unlist(Map(function(mu, sigma, lambda, nu, margin){
-    get(paste0("q", margin), envir = parent.frame())(p = 0.5, mu = mu, sigma = sigma, lambda = lambda, nu = nu)
+    get(paste0("q", margin), envir = asNamespace("bcsnsm"))(p = 0.5, mu = mu, sigma = sigma, lambda = lambda, nu = nu)
   }, mu, sigma, lambda, nu, margins)), ncol = d)
   colnames(fv) <- colnames(y)
 
@@ -559,7 +559,7 @@ bcsnsm <- function(y,
   dgf <- mcopula$dgf
 
   association <- match.arg(association, c("unstructured", "uniform", "nonassociative"))
-  association <- get(association, envir = parent.frame())(d)
+  association <- get(association, envir = asNamespace("bcsnsm"))(d)
 
   ## Optimization ----
 
@@ -577,7 +577,7 @@ bcsnsm <- function(y,
     mu0 <- sigma0 <- lambda0 <- nu0 <- rep(NA, d)
 
     for (j in 1:d) {
-      marg_inits <- get(margins[j], envir = parent.frame())(y[, j])$start(y[, j])
+      marg_inits <- get(margins[j], envir = asNamespace("bcsnsm"))(y[, j])$start(y[, j])
 
       mu0[j] <- marg_inits[1]
       sigma0[j] <- marg_inits[2]
@@ -635,13 +635,13 @@ bcsnsm <- function(y,
       epsilon <- log_f <- matrix(NA, n, d)
       for(j in 1:d){
 
-        epsilon[, j] <- qPSI(pmin(pmax(get(paste0("p", margins[j]), envir = parent.frame())(q = y[, j],
+        epsilon[, j] <- qPSI(pmin(pmax(get(paste0("p", margins[j]), envir = asNamespace("bcsnsm"))(q = y[, j],
                                                                                             mu = mu[j],
                                                                                             sigma = sigma[j],
                                                                                             lambda = lambda[j],
                                                                                             nu = nu[j]), EPS), 1 - EPS))
 
-        log_f[, j] <- get(paste0("d", margins[j]), envir = parent.frame())(x = y[, j],
+        log_f[, j] <- get(paste0("d", margins[j]), envir = asNamespace("bcsnsm"))(x = y[, j],
                                                                            mu = mu[j],
                                                                            sigma = sigma[j],
                                                                            lambda = lambda[j],

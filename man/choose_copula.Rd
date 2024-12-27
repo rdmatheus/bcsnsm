@@ -31,13 +31,13 @@ the BIC, and the run-time of the fit is displayed.}
 \item{plot}{logical; if \code{TRUE}, a graph of the profiled log-likelihood evaluated in the
 considered grid of values is shown.}
 
-\item{control}{a list of control arguments specified via \code{\link[bcnsm]{control_fit}}.}
+\item{control}{a list of control arguments specified via \code{\link[bcsnsm]{control_fit}}.}
 
-\item{...}{further arguments passed to \code{\link[bcnsm]{control_fit}}.}
+\item{...}{further arguments passed to \code{\link[bcsnsm]{control_fit}}.}
 }
 \value{
 An object of class \code{"choose_copula"}. More specifically, it returns a list in which
-    each element consists of the fit of the BCNSM distribution with each value of the extra
+    each element consists of the fit of the BCS-NSM distribution with each value of the extra
     parameter specified in \code{grid}.
 }
 \description{

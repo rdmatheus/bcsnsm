@@ -59,7 +59,7 @@ Student's \emph{t} (\code{"t"}), slash (\code{"slash"}), and hyperbolic (\code{"
 \code{eta} / (1 - \code{eta}) degrees of freedom. To estimate the value of \code{eta}
 via profile log-likelihood, use the function \code{\link{choose_copula}}.}
 
-\item{control}{a list of optimization control arguments specified via \code{\link{control_fit}}  .}
+\item{control}{a list of optimization control arguments specified via \code{\link{control_fit}}.}
 
 \item{...}{further optimization control arguments passed to \code{\link{control_fit}}.}
 }
@@ -108,7 +108,7 @@ The \code{formula} argument of the \code{formula} method uses functionalities in
       \code{x1} and \code{x2}; \code{y2} as a function of \code{x1} and \code{x3}; and \code{y3}
       as a function of \code{x2} and \code{x3}.
 
-   For the \code{default} method, the \code{bcnsm} function fits a BCS-NSM distribution without
+   For the \code{default} method, the \code{bcsnsm} function fits a BCS-NSM distribution without
       regression structures. It returns a list with the same components as the \code{formula}
       method, except for the \code{coefficients}, \code{links}, \code{formula}, and \code{terms}
       components, which are set to NULL. The \code{y} argument represents a \code{data.frame} or
@@ -125,7 +125,7 @@ set.seed(123)
 id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 
 # Reference model
-fit0 <- bcnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+fit0 <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
                  data = wdbc, subset = id)
 fit0
 
@@ -133,7 +133,7 @@ fit0
 plot(fit0, "marginal", panel = c(2, 3))
 
 # Improve the fit on margins
-fit_gaussian <- bcnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+fit_gaussian <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
                          data = wdbc, subset = id, margins = c("lt", "lt", "lno", "lpe", "bct"))
 
 ## Marginal quantile residuals of the improved model

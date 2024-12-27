@@ -14,7 +14,7 @@
 #'     (Rigby and Stasinopoulos, 2004) distributions, and all the class of the
 #'     log-symmetric distributions (Vanegas and Paula, 2016) as special cases.
 #'
-#'     The current available BCS distributions in the \code{bcnsm} package can be seen below.
+#'     The current available BCS distributions in the \code{bcsnsm} package can be seen below.
 #'   \tabular{llc}{
 #'  \bold{Distribution}  \tab \bold{Abbreviation} \tab \bold{N. of parameters}\cr
 #'  Box-Cox Cauchy  \tab \code{"\link{bcca}"}      \tab  3  \cr
@@ -86,7 +86,7 @@ bcs.default <- function(object, ...) {
   return(switch(cl,
                 bcs = object,
                 "function" = bcs(object()),
-                character = bcs(get(object)),
+                character = bcs(get(object, envir = asNamespace("bcsnsm"))),
                 name = bcs(eval(object)),
                 call = bcs(eval(object)),
                 NULL = bcno(),
