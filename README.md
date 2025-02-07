@@ -19,7 +19,7 @@ package can be done using the `devtools` package. If it has not been
 previously installed, it can be added by executing the following command
 in the `R` environment: `install.packages("devtools")`.
 
-After installing the `devtools` package, if one is using *Windows*, it
+After installing the `devtools` package, if you are using *Windows*, it
 may be necessary to install the current version of the `RTools` program,
 available for download [at
 here](https://cran.r-project.org/bin/windows/Rtools). Finally, the

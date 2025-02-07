@@ -290,8 +290,6 @@ rbcsnsm <- function(n, mu, sigma, lambda, nu, Gamma = diag(ncol(x)),
 #'                    x5 = rlnorm(1000, 3, 0.5))
 #'
 #' mvplot(data)
-#'
-#'
 mvplot <- function(y, method = c("kendall", "spearman", "pearson"), ...) {
 
   method <- match.arg(method, c("kendall", "spearman", "pearson"))
@@ -344,7 +342,8 @@ mvplot <- function(y, method = c("kendall", "spearman", "pearson"), ...) {
 
 
     GGally::ggpairs(as.data.frame(y),
-                    lower = list(continuous = "points", combo = "facethist", discrete = "facetbar"),
+                    #lower = list(continuous = "points", combo = "facethist", discrete = "facetbar"),
+                    lower = list(continuous = GGally::wrap("points", size = 1.2)),
                     upper = list(continuous = GGally::wrap(cor_func)),
                     diag = list(continuous = GGally::wrap("barDiag",
                                                           colour = 1,

@@ -148,8 +148,12 @@ AIC.bcsnsm <- function(object, ..., k = 2) {
 }
 
 # Residuals
-#' @name residuals.bcsnsm
-#' @title Extract Model Residuals for a BerG Regression
+#' Extract Residuals for an \code{bcsnsm} Object
+#' 
+#' Two quantities that allow the diagnosis of the fit of a BCS-NSM distribution. The transformed 
+#'     Mahalanobis distances make it possible to detect outliers and the epsilon transformations,
+#'     \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}, alows to evaluate the
+#'      marginal and copula assumptions.
 #'
 #' @param object an \code{"bcsnsm"} object.
 #' @param type character; specifies which residual should be extracted. The available arguments are
@@ -481,9 +485,10 @@ print.summary.bcsnsm <- function(x, digits = max(3, getOption("digits") - 3), ..
 
 globalVariables(c("theo", "emp", "marg", "grid_x", "grid_y", "prob", "density"))
 # Plot
-#' Visualization of the fit of the BCS-NSM distributions
-#'
-#'
+#' Plot Diagnostic for an \code{bcsnsm} Object
+#' 
+#' The graphs provided are tools for evaluating the goodness-of-fit of a BCS-NSM
+#'     distribution to a multivariate positive data. 
 #'
 #' @param x an object of class \code{bcsnsm}.
 #' @param type character; specifies which graphical should be produced. The available options
@@ -498,6 +503,24 @@ globalVariables(c("theo", "emp", "marg", "grid_x", "grid_y", "prob", "density"))
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' 
+#' @details
+#' the argument \code{type} is a character that specifies what type of diagnostic graph should be
+#'     produced. The available options are \code{"response"} (default), \code{"marginal"}, and
+#'     \code{"epsilon"}. When \code{type = "response"}, a panel graphical summary of the fit is
+#'     returned, where the bottom panels show the scatterplots with the fitted contour lines for
+#'     each pair at \code{levels}; the diagonal panels show the histograms with the fitted marginal
+#'     densities; and the top panels show the fitted association matrix. Furthermore,
+#'     if \code{outliers = TRUE}, possible outliers are highlighted in red, where
+#'     \code{alpha} is the criterion that identifies a point as a possible outlier based on the
+#'     distribution of Mahalanobis distances. A similar graph is displayed when 
+#'     \code{type = "epsilon"}. However, this setting uses the transformations 
+#'     \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}} instead of the response
+#'     matrix. Finally, when \code{type = "marginal"}, the PP plots of the marginal fits are displayed 
+#'     in panels along with the p-value of the Kolmogorov-Smirnov test. The argument
+#'     \code{panel} is a vector of the form \code{c(nr, nc)} with the number of rows and columns of
+#'     this panel, where the figures will be drawn in an \code{nr}-by-\code{nc} array on the device. 
+#' 
 #'
 #' @export
 #'

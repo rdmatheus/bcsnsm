@@ -274,8 +274,8 @@ bcca <- function(x) {
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
 #'
 #' @examples
-#' mu <- 2
-#' sigma <- 1
+#' mu <- 0.5
+#' sigma <- 0.1
 #'
 #' # Sample generation
 #' x <- rlca(1000, mu, sigma)

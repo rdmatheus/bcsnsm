@@ -98,21 +98,19 @@ Fit a multivariate BCS-NSM regression via maximum likelihood for positive contin
 }
 \details{
 The \code{formula} argument of the \code{formula} method uses functionalities inherited from
-      package (Zeileis and Croissant, 2010). A basic formula for specifying a 3-variate BCS-NSM
-      regression model is, for instance, \code{y1 + y2 + y3 ~ x1 + x2 + x3}, which specifies the
-      same regression structure for the three marginal distributions as a function of the
-      explanatory variables \code{x1, x2} and \code{x3}. However, using the Formula package
-      allows different regression structures to be specified for each marginal distribution using
-      the "\code{|}" operator. For instance, \code{formula = c(y1 + y2 + y3 ~ x1 + x2 | x1 + x3 |
-      x2 + x3)} fits a 3-variate BCS-NSM regression that models \code{y1} as a function of
-      \code{x1} and \code{x2}; \code{y2} as a function of \code{x1} and \code{x3}; and \code{y3}
-      as a function of \code{x2} and \code{x3}.
-
-   For the \code{default} method, the \code{bcsnsm} function fits a BCS-NSM distribution without
-      regression structures. It returns a list with the same components as the \code{formula}
-      method, except for the \code{coefficients}, \code{links}, \code{formula}, and \code{terms}
-      components, which are set to NULL. The \code{y} argument represents a \code{data.frame} or
-      a matrix containing non-negative observations.
+     package (Zeileis and Croissant, 2010). A basic formula for specifying a 3-variate BCS-NSM
+     regression model is, for instance, \code{y1 + y2 + y3 ~ x1 + x2 + x3}, which specifies the
+     same regression structure for the three marginal distributions as a function of the
+     explanatory variables \code{x1, x2} and \code{x3}. However, using the Formula package
+     allows different regression structures to be specified for each marginal distribution using
+     the "\code{|}" operator. For instance, \code{formula = c(y1 + y2 + y3 ~ x1 + x2 | x1 + x3 |
+     x2 + x3)} fits a 3-variate BCS-NSM regression that models \code{y1} as a function of
+     \code{x1} and \code{x2}; \code{y2} as a function of \code{x1} and \code{x3}; and \code{y3}
+     as a function of \code{x2} and \code{x3}.
+      
+ Parameter estimation is performed by directly maximizing the log-likelihood function through
+     the \code{\link[stats]{optim}} function. To select the possible extra parameter (\code{eta})
+     of the NSM copula, the \code{\link{choose_copula}} function can be used.
 }
 \examples{
 \dontrun{
@@ -125,7 +123,7 @@ set.seed(123)
 id <- sample(1:nrow(wdbc), 0.7 * nrow(wdbc))
 
 # Reference model
-fit0 <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+fit0 <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
                  data = wdbc, subset = id)
 fit0
 
@@ -133,12 +131,11 @@ fit0
 plot(fit0, "marginal", panel = c(2, 3))
 
 # Improve the fit on margins
-fit_gaussian <- bcsnsmreg(cbind(Texture, Area, Smoothness, Compactness, Concavity) ~ Diagnosis,
+fit_gaussian <- bcsnsmreg(texture + area + smoothness + compactness + concavity ~ diagnosis,
                          data = wdbc, subset = id, margins = c("lt", "lt", "lno", "lpe", "bct"))
 
 ## Marginal quantile residuals of the improved model
 plot(fit_gaussian, "marginal", panel = c(2, 3))
-
 
 ## Summary
 summary(fit_gaussian)

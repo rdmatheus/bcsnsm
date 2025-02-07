@@ -17,7 +17,8 @@ choose_copula(
 \arguments{
 \item{object}{an \code{"bcsnsm"} or \code{"bcsnsmreg"} object.}
 
-\item{grid}{grid of values that will be used to evaluate the profiled log-likelihood function.
+\item{grid}{grid of values that will be used to evaluate the profiled log-likelihood function, 
+with values on (0, 1).
 If the tweaks are not computationally intensive, we suggest \code{grid = 1:15}.}
 
 \item{copula}{character; informs which normal scale mixture distribution
@@ -43,6 +44,21 @@ An object of class \code{"choose_copula"}. More specifically, it returns a list 
 \description{
 Estimation of the extra parameter of the NSM copula in the fit of the BCS-NSM distribution
 via profile log-likelihood.
+}
+\examples{
+\dontrun{
+# Macronutrients intake dataset
+?macronutrients
+
+# Gaussian copula fit
+fit_gaussian <- bcsnsmreg(animal_p + plant_p + fiber +
+                          carb + total_fat + cholesterol ~ gender)
+                          
+# Fitting a t copula
+fit_t <- choose_copula(fit_gaussian, copula = "t")
+}
+
+
 }
 \references{
 Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical properties and

@@ -54,8 +54,8 @@ A random variable X has a log-Cauchy distribution with parameter \code{mu} and
     and dispersion parameter \code{sigma}. It can be showed that \code{mu} is the median of X.
 }
 \examples{
-mu <- 2
-sigma <- 1
+mu <- 0.5
+sigma <- 0.1
 
 # Sample generation
 x <- rlca(1000, mu, sigma)

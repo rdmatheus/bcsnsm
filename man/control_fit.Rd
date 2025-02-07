@@ -31,6 +31,10 @@ Optimization parameters passed to \code{\link[stats]{optim}} for the fit of a mu
     in the same spirit as \code{\link[betareg]{betareg.control}} from the \code{betareg} package.
     Its primary purpose is to gather all the optimization control arguments in a single function.
 }
+\examples{
+obj <- control_fit()
+obj 
+}
 \references{
 Cribari-Neto, F., and Zeileis, A. (2010). Beta regression in R.
     \emph{Journal of statistical software}, 34, 1-24.

@@ -1,5 +1,5 @@
 #' @name bcsnsmreg-methods
-#' @title Methods for "bcsnsmreg" objects
+#' @title Methods for \code{"bcsnsmreg"} objects
 #' @param x,object an object of class \code{"bcsnsmreg"}.
 #' @param digits a non-null value for \code{digits} specifies the minimum number of
 #'     digits to be printed in values.
@@ -240,8 +240,10 @@ AIC.bcsnsmreg <- function(object, ..., k = 2) {
 }
 
 # Residuals
-#' @name residuals.bcsnsmreg
-#' @title Extract Model Residuals for a Fitted BCS-NSM Regression
+#' Extract Residuals for an \code{bcsnsmreg} Object
+#' 
+#' It provides the overall and marginal quantile residuals, transformed Mahalanobis distances,
+#'      and the epsilon transformations, \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}.
 #'
 #' @param object an \code{"bcsnsmreg"} object.
 #' @param type character; specifies which residual should be extracted. The available arguments are
@@ -613,18 +615,15 @@ print.summary.bcsnsmreg <- function(x, digits = max(3, getOption("digits") - 3),
 
 globalVariables(c("z", "upper", "lower", "density", "theo", "emp", "grid_x", "grid_y", "prob"))
 # Plot
-#' Visualization of the Fit of a BCS-NSM Regression
-#'
-#' Five plots (selectable by \code{type}) are currently available:
-#' a plot of residuals against fitted values, a plot of residuals against
-#' the indexes, a Normal Q-Q plot, a barplot with comparisons of the
-#' observed and fitted frequencies, and a plot of the sample autocorelations
-#' of the residuals.
+#' Plot Diagnostic for an \code{bcsnsmreg} Object
+#' 
+#' The graphs provided are tools for evaluating the goodness-of-fit of a BCS-NSM
+#'     regression to a multivariate positive data. 
 #'
 #' @param x an object of class \code{bcsnsmreg}.
 #' @param type character; specifies which graphical should be produced. The available options
 #'     are \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and
-#'     \code{"epsilon"}.
+#'     \code{"epsilon"}. Se Details.
 #' @param levels levels for contours plots. Used only when \code{type = "epsilon"}.
 #' @param panel a vector of the form \code{c(nr, nc)} with the number of rows and columns, where
 #'     the figures will be drawn in an \code{nr-}by\code{-nc} array on the device. Used
@@ -632,6 +631,23 @@ globalVariables(c("z", "upper", "lower", "density", "theo", "emp", "grid_x", "gr
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' 
+#' @details
+#' the argument \code{type} specifies what type of diagnostic plot should be produced. The available
+#'     options are \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and
+#'     \code{"epsilon"}. When \code{type = "quantile"}, the function returns the normal probability
+#'     plot with a 95\% confidence region of the overall quantile residuals, where the confidence
+#'     region is computed according to Fox (2015, Sec. 3.1.3). When \code{type = "marginal"}, it 
+#'     produces the normal probability plots of the quantile residuals resulting from the fit at
+#'     each marginal distribution. The argument \code{panel} is a vector \code{c(nr, nc)},
+#'     indicating the number of rows and columns in which these graphs will be arranged on the 
+#'     device. When \code{type = "mahalanobis"}, a plot of the transformed Mahalanobis distances 
+#'     for each observational unit is produced. Finally, when \code{type = "epsilon"}, a panel
+#'     graphical summary of the transformations \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}
+#'     is returned, where the bottom panels show the scatterplots with the fitted contour lines for
+#'     each pair at \code{levels}; the diagonal panels show the histograms with the fitted marginal
+#'     densities; and the top panels show the upper triangular elements of the fitted association matrix. 
+#' 
 #'
 #' @export
 #'

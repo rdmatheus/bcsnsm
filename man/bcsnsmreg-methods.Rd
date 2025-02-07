@@ -11,7 +11,7 @@
 \alias{print.bcsnsmreg}
 \alias{summary.bcsnsmreg}
 \alias{print.summary.bcsnsmreg}
-\title{Methods for "bcsnsmreg" objects}
+\title{Methods for \code{"bcsnsmreg"} objects}
 \usage{
 \method{model.frame}{bcsnsmreg}(formula, ...)
 
@@ -64,7 +64,7 @@ and \code{"gamma"}.}
 digits to be printed in values.}
 }
 \description{
-Methods for "bcsnsmreg" objects
+Methods for \code{"bcsnsmreg"} objects
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

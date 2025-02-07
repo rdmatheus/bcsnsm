@@ -33,8 +33,6 @@ data <- data.frame(x1 = rnorm(1000),
                    x5 = rlnorm(1000, 3, 0.5))
 
 mvplot(data)
-
-
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

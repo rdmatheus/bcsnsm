@@ -18,7 +18,23 @@ as.bcs(object)
 \arguments{
 \item{...}{further arguments passed to or from other methods.}
 
-\item{x, object}{an object of class "\code{bcs}".}
+\item{x, object}{a character with the abbreviation for a Box-Cox symmetric or log-symmetric 
+distribution. See details.}
+}
+\value{
+The \code{bcs} function returns an object of class "\code{bcs}", which consists of a list
+    with the following components:
+\describe{
+  \item{abb}{the abbreviation of the distribution considered in the \code{bcsnsm} package.}
+  \item{name}{the corresponding name of the distribution.}
+  \item{npar}{number of model parameters.}
+  \item{extrap}{logical; if \code{TRUE}, it indicates that the distribution has an extra parameter.}
+  \item{start}{a function \code{function(x)} which receives a vector of positive data and returns
+       initial values for the parameters of the distribution.}
+ }
+ 
+ The "\code{bcs}" objects are used to define the marginal distributions and to estimate the
+     parameters of the BCS-NSM distributions in the \code{bcsnsm} package.
 }
 \description{
 Methods for "\code{bcs}" objects.

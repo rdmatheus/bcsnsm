@@ -2,7 +2,7 @@
 % Please edit documentation in R/07_bcsnsm_methods.R
 \name{plot.bcsnsm}
 \alias{plot.bcsnsm}
-\title{Visualization of the fit of the BCS-NSM distributions}
+\title{Plot Diagnostic for an \code{bcsnsm} Object}
 \usage{
 \method{plot}{bcsnsm}(
   x,
@@ -34,7 +34,25 @@ the figures will be drawn in an \code{nr-}by\code{-nc} array on the device.}
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Visualization of the fit of the BCS-NSM distributions
+The graphs provided are tools for evaluating the goodness-of-fit of a BCS-NSM
+    distribution to a multivariate positive data.
+}
+\details{
+the argument \code{type} is a character that specifies what type of diagnostic graph should be
+    produced. The available options are \code{"response"} (default), \code{"marginal"}, and
+    \code{"epsilon"}. When \code{type = "response"}, a panel graphical summary of the fit is
+    returned, where the bottom panels show the scatterplots with the fitted contour lines for
+    each pair at \code{levels}; the diagonal panels show the histograms with the fitted marginal
+    densities; and the top panels show the fitted association matrix. Furthermore,
+    if \code{outliers = TRUE}, possible outliers are highlighted in red, where
+    \code{alpha} is the criterion that identifies a point as a possible outlier based on the
+    distribution of Mahalanobis distances. A similar graph is displayed when 
+    \code{type = "epsilon"}. However, this setting uses the transformations 
+    \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}} instead of the response
+    matrix. Finally, when \code{type = "marginal"}, the PP plots of the marginal fits are displayed 
+    in panels along with the p-value of the Kolmogorov-Smirnov test. The argument
+    \code{panel} is a vector of the form \code{c(nr, nc)} with the number of rows and columns of
+    this panel, where the figures will be drawn in an \code{nr}-by-\code{nc} array on the device.
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

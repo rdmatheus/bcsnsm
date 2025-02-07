@@ -2,7 +2,7 @@
 % Please edit documentation in R/07_bcsnsm_methods.R
 \name{residuals.bcsnsm}
 \alias{residuals.bcsnsm}
-\title{Extract Model Residuals for a BerG Regression}
+\title{Extract Residuals for an \code{bcsnsm} Object}
 \usage{
 \method{residuals}{bcsnsm}(object, type = c("mahalanobis", "epsilon"), ...)
 }
@@ -15,7 +15,10 @@
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Extract Model Residuals for a BerG Regression
+Two quantities that allow the diagnosis of the fit of a BCS-NSM distribution. The transformed 
+    Mahalanobis distances make it possible to detect outliers and the epsilon transformations,
+    \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}, alows to evaluate the
+     marginal and copula assumptions.
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

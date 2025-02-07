@@ -2,7 +2,7 @@
 % Please edit documentation in R/08_regression_methods.R
 \name{plot.bcsnsmreg}
 \alias{plot.bcsnsmreg}
-\title{Visualization of the Fit of a BCS-NSM Regression}
+\title{Plot Diagnostic for an \code{bcsnsmreg} Object}
 \usage{
 \method{plot}{bcsnsmreg}(
   x,
@@ -17,7 +17,7 @@
 
 \item{type}{character; specifies which graphical should be produced. The available options
 are \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and
-\code{"epsilon"}.}
+\code{"epsilon"}. Se Details.}
 
 \item{levels}{levels for contours plots. Used only when \code{type = "epsilon"}.}
 
@@ -28,11 +28,24 @@ only when \code{type = "marginal"}.}
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Five plots (selectable by \code{type}) are currently available:
-a plot of residuals against fitted values, a plot of residuals against
-the indexes, a Normal Q-Q plot, a barplot with comparisons of the
-observed and fitted frequencies, and a plot of the sample autocorelations
-of the residuals.
+The graphs provided are tools for evaluating the goodness-of-fit of a BCS-NSM
+    regression to a multivariate positive data.
+}
+\details{
+the argument \code{type} specifies what type of diagnostic plot should be produced. The available
+    options are \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and
+    \code{"epsilon"}. When \code{type = "quantile"}, the function returns the normal probability
+    plot with a 95\% confidence region of the overall quantile residuals, where the confidence
+    region is computed according to Fox (2015, Sec. 3.1.3). When \code{type = "marginal"}, it 
+    produces the normal probability plots of the quantile residuals resulting from the fit at
+    each marginal distribution. The argument \code{panel} is a vector \code{c(nr, nc)},
+    indicating the number of rows and columns in which these graphs will be arranged on the 
+    device. When \code{type = "mahalanobis"}, a plot of the transformed Mahalanobis distances 
+    for each observational unit is produced. Finally, when \code{type = "epsilon"}, a panel
+    graphical summary of the transformations \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}
+    is returned, where the bottom panels show the scatterplots with the fitted contour lines for
+    each pair at \code{levels}; the diagonal panels show the histograms with the fitted marginal
+    densities; and the top panels show the upper triangular elements of the fitted association matrix.
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

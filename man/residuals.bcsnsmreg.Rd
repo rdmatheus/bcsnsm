@@ -2,7 +2,7 @@
 % Please edit documentation in R/08_regression_methods.R
 \name{residuals.bcsnsmreg}
 \alias{residuals.bcsnsmreg}
-\title{Extract Model Residuals for a Fitted BCS-NSM Regression}
+\title{Extract Residuals for an \code{bcsnsmreg} Object}
 \usage{
 \method{residuals}{bcsnsmreg}(
   object,
@@ -19,7 +19,8 @@
 \item{...}{further arguments passed to or from other methods.}
 }
 \description{
-Extract Model Residuals for a Fitted BCS-NSM Regression
+It provides the overall and marginal quantile residuals, transformed Mahalanobis distances,
+     and the epsilon transformations, \eqn{\varepsilon_{ij} = \Psi_H^{-1}\{\widehat{F}_{j}(y_{ij})\}}.
 }
 \author{
 Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>

@@ -31,6 +31,10 @@
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
 #'
 #' @return A list with the arguments specified.
+#' 
+#' @examples 
+#' obj <- control_fit()
+#' obj 
 #' @export
 control_fit <- function(method = "BFGS", maxit = 2000, hessian = TRUE, inits = NULL, ...) {
 
