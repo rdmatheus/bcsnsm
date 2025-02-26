@@ -97,7 +97,7 @@ Fit a multivariate BCS-NSM regression via maximum likelihood for positive contin
     mixture distribution (see \code{\link{bcsnsm.dist}}).
 }
 \details{
-The \code{formula} argument of the \code{formula} method uses functionalities inherited from
+The \code{formula} argument uses functionalities inherited from \code{Formula}
      package (Zeileis and Croissant, 2010). A basic formula for specifying a 3-variate BCS-NSM
      regression model is, for instance, \code{y1 + y2 + y3 ~ x1 + x2 + x3}, which specifies the
      same regression structure for the three marginal distributions as a function of the
