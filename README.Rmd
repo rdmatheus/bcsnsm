@@ -1,0 +1,183 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "90%",
+  fig.align = "center",
+  message = FALSE
+)
+```
+
+# `bcsnsm`: Multivariate regression analysis of positive data based on the BCS-NSM distributions
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/rdmatheus/bcsnsm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rdmatheus/bcsnsm/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The `bcsnsm` package is dedicated to the estimation and analysis of goodness-of-fit
+within the class of the multivariate BCS-NSM regression models. The package includes implementations of some Box-Cox symmetric and log-symmetric distributions for marginal modeling. It provides the Gaussian, $t$, slash, and hyperbolic copulas with some options of association matrices for dependence modeling. 
+
+## Installation
+
+The development version of the `bcsnsm` package is hosted on
+[GitHub](https://github.com/rdmatheus/bcsnsm). The installation of the
+package can be done using the `devtools` package. If it has not been
+previously installed, it can be added by executing the following command
+in the `R` environment: `install.packages("devtools")`.
+
+After installing the `devtools` package, if you are using *Windows*, it
+may be necessary to install the current version of the `RTools` program,
+available for download [at here](https://cran.r-project.org/bin/windows/Rtools). Finally, the development version of the `bcsnsm` can be installed by executing the
+following command:
+``` r
+devtools::install_github("rdmatheus/bcsnsm")
+```
+## Example
+
+The `bcsnsm` package provides functions for estimation and inference for the parameters as well diagnostic tools for assessing the goodness-of-fit of the model. Below is an example of some functions usage and available methods.
+
+```{r}
+## Loading packages
+library(bcsnsm)
+```
+
+### `macronutrients` dataset 
+
+The `macronutrients` dataset is a subset of a study conducted by Ferreira et al. (2014) on the nutrient intake patterns of older adults in Botucatu, São Paulo, Brazil. The description of the available variables can be accessed in the data documentation by running the following command: `?macronutrients`.
+
+The dependent variables consist of the macronutrient intake based on the first 24-h dietary recall interview, where each sampling unit provides a vector with dimension 6 with the intake of animal protein (*g*), plant protein (*g*), fiber (*g*), carbohydrate (*g*), total fat (*g*), and cholesterol (*mg*). The dataset also provides socioeconomic variables.
+```{r}
+str(macronutrients)
+```
+
+The `bcsnsm` package provides the `mvplot()` function for visualizing multivariate data. See the documentation by running `?mvplot`
+```{r, fig.asp=0.9}
+mvplot(macronutrients[, 1:6], method = "kendall")
+```
+
+### Regression modeling
+
+The main function of the package is `bcsnsmreg()`, which performs maximum likelihood estimation for BCS-NSM regression models. For details, see the documentation with `?bcsnsmreg`.
+
+This function allows users to specify different Box-Cox symmetric marginal distributions, association structures, and copulas. Currently, the package supports Gaussian, $t$, slash, and hyperbolic copulas. The available Box-Cox symmetric distributions and log-symmetric special cases in the package are listed below.
+```{r, echo=FALSE}
+# Criando a tabela em um data frame
+df <- data.frame(
+  Distribution = c(
+    "Box-Cox Cauchy", "Box-Cox Hyperbolic", "Box-Cox Laplace",
+    "Box-Cox Type I Logistic", "Box-Cox Type II Logistic",
+    "Box-Cox Normal", "Box-Cox Power exponential",
+    "Box-Cox Slash", "Box-Cox t"),
+  Abbreviation = c(
+    '"bcca"', '"bchp"', '"bcla"', '"bcloi"', '"bcloii"',
+    '"bcno"', '"bcpe"', '"bcsl"', '"bct"'
+  ),
+  Distribution = c(  
+    "Log-Cauchy", "Log-Hyperbolic", "Log-Laplace",
+    "Log-Type I Logistic", "Log-Type II Logistic",
+    "Log-Normal", "Log-Power exponential",
+    "Log-Slash", "Log-t"
+  ),
+    Abbreviation = c(
+    '"lca"', '"lhp"', '"lla"', '"lloi"', '"lloii"',
+    '"lno"', '"lpe"', '"lsl"', '"lt"'
+  )
+)
+
+# Gerando a tabela formatada
+knitr::kable(df,col.names = c("Distribution", "Abbreviation",
+                              "Distribution", "Abbreviation"))
+```
+
+The class of the BCS-NSM regression models provides flexibility in specifying both marginal distributions and dependence structures. Therefore, applying the model in practice requires selecting several components. We suggest the following steps:
+
+  1. Choose the marginal distributions while maintaining the Gaussian copula and regression structure;
+  2. Given the selected marginal distributions, specify a copula;
+  3. Based on the chosen marginal distributions and copula, refine the model by removing non-significant explanatory variables. We will illustrate the use of the `bcsnsmreg()` function by fitting a BCS-NSM regression to the `macronutrient` dataset.
+  
+#### Step 1: 
+
+We begin by fitting a six-variate BCS-NSM regression model to the vector of dependent variables: animal protein, plant protein, fiber, carbohydrate, total fat, and cholesterol. These variables are modeled as functions of gender, age, education level, number of people in the household, and income. The reference model assumes "bcno" distributions for all marginals and a Gaussian copula. These are the default specifications of the `bcsnsmreg()` function. Below, we present the summary of the fit and the normal probability plots of the marginal quantile residuals.
+```{r}
+## Reference model
+fit0 <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                  gender + age + education + npeople + income, data = macronutrients)
+
+# Summary
+summary(fit0)
+
+# Normal probability plot
+plot(fit0, "marginal", panel = c(2, 3))
+```
+
+The normal probability plots suggest that the marginal distributions for the intake of animal protein, plant protein, fiber, and cholesterol have heavier tails than those of "bcno". Based on the AIC, BIC, and residual analysis, we chose the following marginal distributions: "bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii".
+
+```{r}
+## Improved model
+fit_gauss <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                  gender + age + education + npeople + income, data = macronutrients,
+                  margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"))
+
+# Summary
+summary(fit_gauss)
+
+# Normal probability plot
+plot(fit_gauss, "marginal", panel = c(2, 3))
+```
+
+#### Step 2: Choice of copula
+
+The copula can be specified in the `bcsnsmreg()` function using the `copula` argument (character). The available options are: Gaussian (`copula = "gaussian"`), Student's $t$ (`copula = "t"`), slash (`copula = "slash"`), and hyperbolic (`copula = "hyp"`).
+
+All copulas except the Gaussian have an additional parameter, $\eta$, which must be set via the `eta` argument and takes values in the range $(0,1)$. To assist in choosing this parameter, the `bcsnsm` package provides the `choose_copula()` function, which selects $\eta$ based on the highest profiled likelihood over a grid of values. Due to its computational intensity, we do not reproduce this step in this document. See `?choose_copula()`.
+
+For our analysis, we selected the Student's $t$ copula with $\eta = 0.9$.
+```{r}
+## Fit with t copula
+fit_t <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                  gender + age + education + npeople + income, data = macronutrients,
+                  margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"),
+                  copula = "t", eta = 0.9)
+
+# Summary
+summary(fit_t)
+```
+
+### Step III: Variable selection
+
+To complete Step 3, we eliminated from the model the explanatory variables that did not exhibit significance at the 5% level. Additionally, we reduced the marginal distribution of total fat intake from the "bcno" distribution to an "lno" distribution, since the confidence interval for the "lambda" parameter of this marginal contains zero. 
+
+The `bcsnsmreg()` function uses features inherited from the `Formula` package (Zeileis and Croissant, 2010) and allows different regression structures to be specified for each marginal distribution using the `|` operator. 
+```{r}
+## Final model
+fit <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                 gender | gender | gender + education | 
+                 gender + age | gender | gender, data = macronutrients,
+                 margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"),
+                 copula = "t", eta = 0.9)
+
+# Summary
+summary(fit)
+```
+
+In addition to marginal quantile residuals, the `bcsnsm` package provides quantile residuals based on transformed Mahalanobis distances to assess the overall goodness-of-fit of the model, beyond just the marginal distributions. The figures below present the normal probability plot of these residuals and the transformed Mahalanobis distances.
+```{r}
+## "Overall" quantile residuals
+plot(fit, type = "quantile")
+
+## Transformed Mahalanobis distances
+plot(fit, type = "mahalanobis")
+```
+
+
+
+
+  
+
