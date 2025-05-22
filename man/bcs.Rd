@@ -34,10 +34,17 @@ The \code{bcs} function returns an object of class "\code{bcs}", which consists 
  }
  
  The "\code{bcs}" objects are used to define the marginal distributions and to estimate the
-     parameters of the BCS-NSM distributions in the \code{bcsnsm} package.
+     parameters of the multivariate BCS-NSM distributions in the \code{bcsnsm} package.
+     
+ The \code{print()} function returns a basic summary of the BCS distribution in the package,
+ with its name, abbreviation, and number of parameters. The \code{as.bcs()} function
+ transforms a character with one of the abbreviations shown in the tables above into a
+ "\code{bcs}" object.
 }
 \description{
-Methods for "\code{bcs}" objects.
+A "\code{bcs}" object consists of a list with basic information about a 
+    Box-Cox symmetric distribution, which is used by other functions within the
+    \code{bcsnsm} package.
 }
 \details{
 The class of the Box-Cox symmetric (BCS) distributions was introduced by
@@ -84,7 +91,6 @@ bcs("lno")
 
 bcs("bct")
 bcs("lt")
-
 }
 \references{
 Cole, T., and Green, P.J. (1992). Smoothing reference centile curves: the LMS
@@ -104,5 +110,5 @@ Cole, T., and Green, P.J. (1992). Smoothing reference centile curves: the LMS
      statistical properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 }
 \author{
-Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 }
