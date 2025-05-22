@@ -1,6 +1,8 @@
 #' @name bcs
 #' @title Methods for "\code{bcs}" Objects
-#' @description Methods for "\code{bcs}" objects.
+#' @description A "\code{bcs}" object consists of a list with basic information about a 
+#'     Box-Cox symmetric distribution, which is used by other functions within the
+#'     \code{bcsnsm} package.
 #' @param x,object a character with the abbreviation for a Box-Cox symmetric or log-symmetric 
 #'     distribution. See details.
 #' @param ... further arguments passed to or from other methods.
@@ -14,6 +16,37 @@
 #'     Box-Cox normal (or Box-Cox Cole-Green; Cole and Green, 1992), Box-Cox power exponential
 #'     (Rigby and Stasinopoulos, 2004) distributions, and all the class of the
 #'     log-symmetric distributions (Vanegas and Paula, 2016) as special cases.
+#'     
+#'     Let \eqn{Y} be a positive continuous random variable with a BCS distribution
+#'     with parameters \eqn{\mu > 0}, \eqn{\sigma > 0}, and \eqn{\lambda \in \mathbb{R}}
+#'     and density generating function \eqn{r}. The probability density function of
+#'     \eqn{Y} is given by
+#'
+#'     \eqn{
+#'     f(y; \mu, \sigma, \lambda) = \left\{\begin{array}{ll}
+#'       \dfrac{y^{\lambda-1}}{\mu^\lambda \sigma} \dfrac{r(z^2)}{R\left(\frac{1}{\sigma |\lambda|}\right)}, & \mbox{ if } \lambda \neq 0,\\
+#'       \dfrac{1}{y\sigma} r(z^2), & \mbox{ if } \lambda = 0,
+#'       \end{array}\right., \quad y > 0,
+#'     }
+#'
+#'     where \eqn{r:[0,\infty) \longrightarrow [0, \infty)}
+#'     satisfies \eqn{\int_0^\infty u^{-1/2}r(u)\textrm{d} u = 1},
+#'     \eqn{R(x) = \int_{-\infty}^x r(u^2)\textrm{d} u, x \in \mathbb{R}}, and
+#'     
+#'     \eqn{
+#'     z = \left\{
+#'     \begin{array}{ll}
+#'     \dfrac{1}{\sigma \lambda} \left\{\left(\frac{y}{\mu}\right)^\lambda - 1 \right\}, & \mbox{ if } \lambda \neq 0, \\
+#'     \dfrac{1}{\sigma} \log\left(\frac{y}{\mu}\right), & \mbox{ if } \lambda = 0.
+#'     \end{array}
+#'     \right.
+#'     }
+#'
+#'     The function \eqn{r} is called density generating function, and it specifies the
+#'     generating symmetric family of \eqn{Y} within the class of the BCS probability
+#'     models. This function can also depend on extra parameters, such as the Box-Cox \emph{t} and
+#'     Box-Cox power exponential distributions. We call these extra parameters
+#'     \code{zeta}.
 #'
 #'     The current available BCS distributions in the \code{bcsnsm} package can be seen below.
 #'   \tabular{llc}{
@@ -55,7 +88,12 @@
 #'  }
 #'  
 #'  The "\code{bcs}" objects are used to define the marginal distributions and to estimate the
-#'      parameters of the BCS-NSM distributions in the \code{bcsnsm} package.
+#'      parameters of the multivariate BCS-NSM distributions in the \code{bcsnsm} package.
+#'      
+#'  The \code{print()} function returns a basic summary of the BCS distribution in the package,
+#'  with its name, abbreviation, and number of parameters. The \code{as.bcs()} function
+#'  transforms a character with one of the abbreviations shown in the tables above into a
+#'  "\code{bcs}" object.
 #'  
 #' @references
 #'  Cole, T., and Green, P.J. (1992). Smoothing reference centile curves: the LMS
@@ -75,7 +113,7 @@
 #'      statistical properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' bcs("bcno")
@@ -83,7 +121,6 @@
 #'
 #' bcs("bct")
 #' bcs("lt")
-#'
 NULL
 
 # Class definition
