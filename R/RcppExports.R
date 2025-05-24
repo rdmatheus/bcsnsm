@@ -5,23 +5,3 @@ hyp_PDF <- function(x, mu, sigma, nu, log_p = FALSE) {
     .Call('_bcsnsm_hyp_PDF', PACKAGE = 'bcsnsm', x, mu, sigma, nu, log_p)
 }
 
-hyp_CDF <- function(qtl, mu, sigma, nu) {
-    .Call('_bcsnsm_hyp_CDF', PACKAGE = 'bcsnsm', qtl, mu, sigma, nu)
-}
-
-hyp_QTF <- function(p, nu) {
-    .Call('_bcsnsm_hyp_QTF', PACKAGE = 'bcsnsm', p, nu)
-}
-
-slash_PDF <- function(x, mu, sigma, nu, log_p = FALSE) {
-    .Call('_bcsnsm_slash_PDF', PACKAGE = 'bcsnsm', x, mu, sigma, nu, log_p)
-}
-
-slash_CDF <- function(qtl, mu, sigma, nu) {
-    .Call('_bcsnsm_slash_CDF', PACKAGE = 'bcsnsm', qtl, mu, sigma, nu)
-}
-
-slash_QTF <- function(p, nu) {
-    .Call('_bcsnsm_slash_QTF', PACKAGE = 'bcsnsm', p, nu)
-}
-

@@ -27,81 +27,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// hyp_CDF
-arma::vec hyp_CDF(const arma::vec& qtl, const arma::vec& mu, const arma::vec& sigma, arma::vec& nu);
-RcppExport SEXP _bcsnsm_hyp_CDF(SEXP qtlSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP nuSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type qtl(qtlSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type nu(nuSEXP);
-    rcpp_result_gen = Rcpp::wrap(hyp_CDF(qtl, mu, sigma, nu));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hyp_QTF
-arma::vec hyp_QTF(const arma::vec& p, const arma::vec& nu);
-RcppExport SEXP _bcsnsm_hyp_QTF(SEXP pSEXP, SEXP nuSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type p(pSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type nu(nuSEXP);
-    rcpp_result_gen = Rcpp::wrap(hyp_QTF(p, nu));
-    return rcpp_result_gen;
-END_RCPP
-}
-// slash_PDF
-arma::vec slash_PDF(const arma::vec& x, const arma::vec& mu, const arma::vec& sigma, arma::vec& nu, const bool log_p);
-RcppExport SEXP _bcsnsm_slash_PDF(SEXP xSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP nuSEXP, SEXP log_pSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type x(xSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type nu(nuSEXP);
-    Rcpp::traits::input_parameter< const bool >::type log_p(log_pSEXP);
-    rcpp_result_gen = Rcpp::wrap(slash_PDF(x, mu, sigma, nu, log_p));
-    return rcpp_result_gen;
-END_RCPP
-}
-// slash_CDF
-arma::vec slash_CDF(const arma::vec& qtl, const arma::vec& mu, const arma::vec& sigma, arma::vec& nu);
-RcppExport SEXP _bcsnsm_slash_CDF(SEXP qtlSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP nuSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type qtl(qtlSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type sigma(sigmaSEXP);
-    Rcpp::traits::input_parameter< arma::vec& >::type nu(nuSEXP);
-    rcpp_result_gen = Rcpp::wrap(slash_CDF(qtl, mu, sigma, nu));
-    return rcpp_result_gen;
-END_RCPP
-}
-// slash_QTF
-arma::vec slash_QTF(const arma::vec& p, const arma::vec& nu);
-RcppExport SEXP _bcsnsm_slash_QTF(SEXP pSEXP, SEXP nuSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::vec& >::type p(pSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type nu(nuSEXP);
-    rcpp_result_gen = Rcpp::wrap(slash_QTF(p, nu));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_bcsnsm_hyp_PDF", (DL_FUNC) &_bcsnsm_hyp_PDF, 5},
-    {"_bcsnsm_hyp_CDF", (DL_FUNC) &_bcsnsm_hyp_CDF, 4},
-    {"_bcsnsm_hyp_QTF", (DL_FUNC) &_bcsnsm_hyp_QTF, 2},
-    {"_bcsnsm_slash_PDF", (DL_FUNC) &_bcsnsm_slash_PDF, 5},
-    {"_bcsnsm_slash_CDF", (DL_FUNC) &_bcsnsm_slash_CDF, 4},
-    {"_bcsnsm_slash_QTF", (DL_FUNC) &_bcsnsm_slash_QTF, 2},
     {NULL, NULL, 0}
 };
 

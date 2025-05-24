@@ -43,100 +43,100 @@ arma::vec hyp_PDF(const arma::vec& x, const arma::vec& mu, const arma::vec& sigm
 
 }
 
-// Cumulative distribution function ----------------------------------------------------------------
-class hypIntegrand: public Func
-{
-private:
-  double qtl;
-  double nu;
-public:
-  hypIntegrand(double qtl_, double nu_) : qtl(qtl_), nu(nu_) {}
-
-  double operator()(const double& x) const
-  {
-    return nu * (1.0 / R::bessel_k(nu, 1.0, 1.0)) *
-      x * exp(-0.5 * (1.0 / pow(x, 2) + nu * nu * pow(x, 2))) * R::pnorm(qtl / x, 0, 1, true, false);
-  }
-};
-
-
-// [[Rcpp::export]]
-arma::vec hyp_CDF(const arma::vec& qtl, const arma::vec& mu, const arma::vec& sigma, arma::vec& nu)
-{
-  int n = qtl.n_rows;
-  const double lower = 0.0, upper = R_PosInf;
-  double err_est;
-  int err_code;
-
-  arma::vec m = (qtl - mu) / sigma;
-
-  arma::vec result(n);
-
-  for (arma::uword i = 0; i < n; ++i) {
-
-    hypIntegrand f(m(i), nu(i));
-
-    result[i] = arma::as_scalar(integrate(f, lower, upper, err_est, err_code));
-  }
-
-  return result;
-
-}
-
-// Quantile distribution function ------------------------------------------------------------------
-class hyp_AUX: public MFuncGrad
-{
-private:
-  double p;
-  double nu;
-public:
-
-  hyp_AUX(double p_, double nu_) : p(p_), nu(nu_) {}
-
-  double f_grad(Constvec& x, Refvec grad)
-  {
-
-    const double lower = 0.0, upper = R_PosInf;
-    double err_est;
-    int err_code;
-
-    hypIntegrand f(x[0], nu);
-
-    double aux1 = exp( log(0.5) - nu * sqrt(1 + x[0] * x[0]) - log(R::bessel_k(nu, 1.0, 1.0)));
-    double aux2 = arma::as_scalar(integrate(f, lower, upper, err_est, err_code)) - p;
-
-    grad[0] = 2 * aux2 * aux1;
-
-
-    return aux2 * aux2;
-  }
-};
-
-
-// [[Rcpp::export]]
-arma::vec hyp_QTF(const arma::vec& p, const arma::vec& nu)
-{
-
-  int n = p.n_rows;
-  arma::vec result(n);
-
-  Eigen::VectorXd x(1);
-
-  for (arma::uword i = 0; i < n; ++i) {
-
-    x[0] = R::qnorm5(p(i), 0, 1, true, false);
-
-    hyp_AUX obj(p(i), nu(i));
-
-    double fopt;
-    int res = optim_lbfgs(obj, x, fopt);
-
-    result[i] = x[0];
-  }
-
-  return result;
-
-}
+// // Cumulative distribution function ----------------------------------------------------------------
+// class hypIntegrand: public Func
+// {
+// private:
+//   double qtl;
+//   double nu;
+// public:
+//   hypIntegrand(double qtl_, double nu_) : qtl(qtl_), nu(nu_) {}
+// 
+//   double operator()(const double& x) const
+//   {
+//     return nu * (1.0 / R::bessel_k(nu, 1.0, 1.0)) *
+//       x * exp(-0.5 * (1.0 / pow(x, 2) + nu * nu * pow(x, 2))) * R::pnorm(qtl / x, 0, 1, true, false);
+//   }
+// };
+// 
+// 
+// // [[Rcpp::export]]
+// arma::vec hyp_CDF(const arma::vec& qtl, const arma::vec& mu, const arma::vec& sigma, arma::vec& nu)
+// {
+//   int n = qtl.n_rows;
+//   const double lower = 0.0, upper = R_PosInf;
+//   double err_est;
+//   int err_code;
+// 
+//   arma::vec m = (qtl - mu) / sigma;
+// 
+//   arma::vec result(n);
+// 
+//   for (arma::uword i = 0; i < n; ++i) {
+// 
+//     hypIntegrand f(m(i), nu(i));
+// 
+//     result[i] = arma::as_scalar(integrate(f, lower, upper, err_est, err_code));
+//   }
+// 
+//   return result;
+// 
+// }
+// 
+// // Quantile distribution function ------------------------------------------------------------------
+// class hyp_AUX: public MFuncGrad
+// {
+// private:
+//   double p;
+//   double nu;
+// public:
+// 
+//   hyp_AUX(double p_, double nu_) : p(p_), nu(nu_) {}
+// 
+//   double f_grad(Constvec& x, Refvec grad)
+//   {
+// 
+//     const double lower = 0.0, upper = R_PosInf;
+//     double err_est;
+//     int err_code;
+// 
+//     hypIntegrand f(x[0], nu);
+// 
+//     double aux1 = exp( log(0.5) - nu * sqrt(1 + x[0] * x[0]) - log(R::bessel_k(nu, 1.0, 1.0)));
+//     double aux2 = arma::as_scalar(integrate(f, lower, upper, err_est, err_code)) - p;
+// 
+//     grad[0] = 2 * aux2 * aux1;
+// 
+// 
+//     return aux2 * aux2;
+//   }
+// };
+// 
+// 
+// // [[Rcpp::export]]
+// arma::vec hyp_QTF(const arma::vec& p, const arma::vec& nu)
+// {
+// 
+//   int n = p.n_rows;
+//   arma::vec result(n);
+// 
+//   Eigen::VectorXd x(1);
+// 
+//   for (arma::uword i = 0; i < n; ++i) {
+// 
+//     x[0] = R::qnorm5(p(i), 0, 1, true, false);
+// 
+//     hyp_AUX obj(p(i), nu(i));
+// 
+//     double fopt;
+//     int res = optim_lbfgs(obj, x, fopt);
+// 
+//     result[i] = x[0];
+//   }
+// 
+//   return result;
+// 
+// }
 
 
 
