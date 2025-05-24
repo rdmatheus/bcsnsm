@@ -85,8 +85,8 @@ The class of the Box-Cox symmetric (BCS) distributions was introduced by
     The function \eqn{r} is called density generating function, and it specifies the
     generating symmetric family of \eqn{Y} within the class of the BCS probability
     models. This function can also depend on extra parameters, such as the Box-Cox \emph{t} and
-    Box-Cox power exponential distributions. We call these extra parameters
-    \code{zeta}.
+    Box-Cox power exponential distributions. We call these extra parameters as
+    \code{nu} (\eqn{\nu}).
 
     The current available BCS distributions in the \code{bcsnsm} package can be seen below.
   \tabular{llc}{
