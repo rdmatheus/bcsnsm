@@ -35,7 +35,7 @@
 #' @references Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and
 #'     applications to nutritional data. \emph{AStA Advances in Statistical Analysis}, 101, 321-344.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 8
@@ -363,7 +363,7 @@ bchp <- function(x) {
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 8
@@ -543,7 +543,9 @@ qlhp <- function(p, mu, sigma, nu, lower.tail = TRUE, ...) {
 #' @rdname lhp
 #' @export
 rlhp <- function(n, mu, sigma, nu) {
-  exp(log(mu) + sigma * rhyp(n, nu = nu))
+  u <- stats::runif(n)
+  qlhp(u, mu, sigma, nu)
+  # exp(log(mu) + sigma * rhyp(n, nu = nu))
 }
 
 # BCS class
@@ -709,7 +711,7 @@ qhyp <- function(p, mu = 0, sigma = 1, nu) {
 }
 
 # Random generation
-rhyp <- function(n, mu = 0, sigma = 1, nu) {
-  mu + sigma * stats::rnorm(n) * sqrt(GIGrvg::rgig(n, 1.0, 1.0, nu^2))
-}
+# rhyp <- function(n, mu = 0, sigma = 1, nu) {
+#   mu + sigma * stats::rnorm(n) * sqrt(GIGrvg::rgig(n, 1.0, 1.0, nu^2))
+# }
 

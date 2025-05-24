@@ -38,7 +38,7 @@
 #' @references Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and
 #'     applications to nutritional data. \emph{AStA Advances in Statistical Analysis}, 101, 321-344.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 8
@@ -295,11 +295,11 @@ bct <- function(x) {
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
-#' mu <- 8
-#' sigma <- 1
+#' mu <- 2
+#' sigma <- 0.1
 #' nu <- 4
 #'
 #' # Sample generation

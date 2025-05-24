@@ -35,7 +35,7 @@
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 10
@@ -261,35 +261,35 @@ bcla <- function(x) {
 #'     \code{sigma} if log(X) follows a Laplace distribution with location parameter \code{log(mu)}
 #'     and dispersion parameter \code{sigma}. It can be showed that \code{mu} is the median of X.
 #'
-#' @return \code{dlca} returns the density, \code{plca} gives the distribution
-#'     function, \code{qlca} gives the quantile function, and \code{rlca}
+#' @return \code{dlla} returns the density, \code{plla} gives the distribution
+#'     function, \code{qlla} gives the quantile function, and \code{rlla}
 #'     generates random observations.
 #'
 #'     Invalid arguments will result in return value \code{NaN}.
 #'
-#'     The length of the result is determined by \code{n} for \code{rlca}, and is the
+#'     The length of the result is determined by \code{n} for \code{rlla}, and is the
 #'     maximum of the lengths of the numerical arguments for the other functions.
 #'
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 5
 #' sigma <- 0.5
 #'
 #' # Sample generation
-#' x <- rlca(500, mu, sigma)
+#' x <- rlla(500, mu, sigma)
 #'
 #' # Density
 #' hist(x, prob = TRUE, main = "The Log-Laplace Distribution", col = "white")
-#' curve(dlca(x, mu, sigma), add = TRUE, col = 2, lwd = 2)
+#' curve(dlla(x, mu, sigma), add = TRUE, col = 2, lwd = 2)
 #' legend("topright", "Probability density function", col = 2, lwd = 2, lty = 1)
 #'
 #' # Distribution function
 #' plot(ecdf(x), main = "The Log-Laplace Distribution", ylab = "Distribution function")
-#' curve(plca(x, mu, sigma), add = TRUE, col = 2, lwd = 2)
+#' curve(plla(x, mu, sigma), add = TRUE, col = 2, lwd = 2)
 #' legend("bottomright", c("Emp. distribution function", "Theo. distribution function"),
 #'   col = c(1, 2), lwd = 2, lty = c(1, 1)
 #' )
@@ -299,7 +299,7 @@ bcla <- function(x) {
 #'   type = "l",
 #'   xlab = "p", ylab = "Quantile function", main = "The Log-Laplace Distribution"
 #' )
-#' curve(qlca(x, mu, sigma), add = TRUE, col = 2, lwd = 2, from = 0, to = 1)
+#' curve(qlla(x, mu, sigma), add = TRUE, col = 2, lwd = 2, from = 0, to = 1)
 #' legend("topleft", c("Emp. quantile function", "Theo. quantile function"),
 #'   col = c(1, 2), lwd = 2, lty = c(1, 1)
 #' )

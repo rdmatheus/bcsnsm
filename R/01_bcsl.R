@@ -35,7 +35,7 @@
 #' @references Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and
 #'     applications to nutritional data. \emph{AStA Advances in Statistical Analysis}, 101, 321-344.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 8
@@ -390,7 +390,7 @@ bcsl <- function(x) {
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 8
@@ -650,101 +650,112 @@ lsl <- function(x) {
 
 # The slash distribution ---------------------------------------------------------------------------
 
+# The slash distribution ---------------------------------------------------------------------------
+
+ig <- function(a, x) pmin(exp(lgamma(a) + stats::pgamma(x, a, scale = 1, log.p = TRUE)), .Machine$double.xmax)
+
 ## Probability density function
 dslash <- function(x, mu = 0, sigma = 1, nu, log = FALSE) {
-
+  
   if (is.matrix(x)) d <- ncol(x) else d <- 1L
-
+  
   maxl <- max(c(length(x), length(mu), length(sigma), length(nu)))
-
+  
   x <- rep(x, length.out = maxl)
   mu <- rep(mu, length.out = maxl)
   sigma <- rep(sigma, length.out = maxl)
-  nu <- rep(nu, length.out = maxl)
-
+  
   pmf <- rep(-Inf, length.out = maxl)
-
+  
   # NaN index
   pmf[which(sigma <= 0 | nu <= 0)] <- NaN
-
-  id <- which(!is.nan(pmf))
-  pmf[id] <- slash_PDF(x[id], mu[id], sigma[id], nu[id], log)
-
+  
+  u <- ((x - mu) / sigma)^2
+  
+  id1 <- which(u > 0 & !is.nan(pmf), arr.ind = TRUE)
+  id2 <- which(u == 0 & !is.nan(pmf), arr.ind = TRUE)
+  
+  pmf[id1] <- log(ig(nu + 0.5,  u[id1]/2)) + log(2 * nu) + (nu - 1) * log(2) -
+    0.5 * log(pi) - (nu + 0.5) * log(u[id1])
+  pmf[id2] <- log(2 * nu) - log(2 * nu + 1) - 0.5 * log(2 * pi)
+  
+  if (!log) pmf <- exp(pmf)
+  
   if (d > 1L) matrix(pmf, ncol = d) else pmf
 }
 
 ## Cumulative distribution function
 pslash <- function(q, mu = 0, sigma = 1, nu, log.p = FALSE) {
   if (is.matrix(q)) d <- ncol(q) else d <- 1L
-
+  
   maxl <- max(c(length(q), length(mu), length(sigma), length(nu)))
-
+  
   q <- rep(q, length.out = maxl)
   mu <- rep(mu, length.out = maxl)
   sigma <- rep(sigma, length.out = maxl)
-
+  
   cdf <- rep(0, length.out = maxl)
-
+  
   # NaN index
   cdf[which(sigma <= 0 | nu <= 0)] <- NaN
-
+  
   # Positive density index
   id1 <- which(is.finite(q) & q != mu & !is.nan(cdf))
   id2 <- which(q == mu & !is.nan(cdf))
   id3 <- which(q == -Inf)
   id4 <- which(q == Inf)
-
+  
   # Constructing the Slash distribution
   W <- distr::AbscontDistribution(
     d = function(x) dslash(x, nu = nu),
     Symmetry = distr::SphericalSymmetry(0)
   )
-
+  
   cdf[id1] <- distr::p(W)((q[id1] - mu[id1]) / sigma[id1])
   cdf[id2] <- 0.5
   cdf[id3] <- 0
   cdf[id4] <- 1
-
-
+  
+  
   if (log.p) cdf <- log(cdf)
-
+  
   if (d > 1L) matrix(cdf, ncol = d) else cdf
 }
 
 # Quantile function
 qslash <- function(p, mu = 0, sigma = 1, nu) {
   if (is.matrix(p)) d <- ncol(p) else d <- 1L
-
+  
   maxl <- max(c(length(p), length(mu), length(sigma), length(nu)))
-
+  
   p <- rep(p, length.out = maxl)
   mu <- rep(mu, length.out = maxl)
   sigma <- rep(sigma, length.out = maxl)
-
+  
   qtf <- rep(NA, maxl)
-
+  
   # NaN index
   qtf[which(p < 0 | p > 1 | sigma <= 0 | nu <= 0)] <- NaN
-
+  
   # Positive density index
   id1 <- which(p != 0.5 & p > 0 & p < 1 & !is.nan(qtf), arr.ind = TRUE)
   id2 <- which(p == 0 & !is.nan(qtf), arr.ind = TRUE)
   id3 <- which(p == 0.5 & !is.nan(qtf), arr.ind = TRUE)
   id4 <- which(p == 1 & !is.nan(qtf), arr.ind = TRUE)
-
+  
   # Constructing the Slash distribution
   W <- distr::AbscontDistribution(
     d = function(x) dslash(x, nu = nu),
     Symmetry = distr::SphericalSymmetry(0)
   )
-
+  
   qtf[id1] <- distr::q(W)(p[id1])
   qtf[id2] <- -Inf
   qtf[id3] <- 0
   qtf[id4] <- Inf
-
+  
   qtf <- mu + sigma * qtf
-
+  
   if (d > 1L) matrix(qtf, ncol = d) else qtf
 }
 
@@ -752,9 +763,3 @@ qslash <- function(p, mu = 0, sigma = 1, nu) {
 rslash <- function(n, mu = 0, sigma = 1, nu) {
   mu + sigma * stats::rnorm(n) / sqrt(stats::rbeta(n, nu, 1))
 }
-
-ig <- function(a, x) pmin(exp(lgamma(a) + stats::pgamma(x, a, scale = 1, log.p = TRUE)), .Machine$double.xmax)
-
-
-
-

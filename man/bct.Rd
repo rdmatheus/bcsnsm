@@ -94,5 +94,5 @@ Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and
     applications to nutritional data. \emph{AStA Advances in Statistical Analysis}, 101, 321-344.
 }
 \author{
-Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 }

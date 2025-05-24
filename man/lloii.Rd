@@ -56,7 +56,7 @@ A random variable X has a log-type II logistic distribution with parameter \code
 }
 \examples{
 mu <- 5
-sigma <- 1
+sigma <- 0.2
 
 # Sample generation
 x <- rlloii(1000, mu, sigma)
@@ -88,5 +88,5 @@ Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistica
     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 }
 \author{
-Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 }

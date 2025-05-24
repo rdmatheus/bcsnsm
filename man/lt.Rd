@@ -57,8 +57,8 @@ A random variable X has a log-t distribution with parameter \code{mu} and
     and dispersion parameter \code{sigma}. It can be showed that \code{mu} is the median of X.
 }
 \examples{
-mu <- 8
-sigma <- 1
+mu <- 2
+sigma <- 0.1
 nu <- 4
 
 # Sample generation
@@ -91,5 +91,5 @@ Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistica
     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 }
 \author{
-Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 }

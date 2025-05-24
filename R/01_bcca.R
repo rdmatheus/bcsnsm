@@ -34,7 +34,7 @@
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 10
@@ -271,7 +271,7 @@ bcca <- function(x) {
 #' @references Vanegas, L. H., and Paula, G. A. (2016). Log-symmetric distributions: statistical
 #'     properties and parameter estimation. \emph{Brazilian Journal of Probability and Statistics}, 30, 196-220.
 #'
-#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@live.com}>
+#' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
 #' mu <- 0.5
