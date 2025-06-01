@@ -12,7 +12,7 @@ bcsnsm(
   na.action,
   margins = "bcno",
   links = "log",
-  association = c("unstructured", "uniform", "nonassociative"),
+  association = c("unstructured", "uniform", "non-associative"),
   copula = c("gaussian", "t", "slash", "hyp"),
   eta = NULL,
   control = control_fit(...),
@@ -50,7 +50,7 @@ regression structure. The links \code{"log"} (default) and \code{"identity"} are
 available. If all links are the same, it is sufficient to enter only one character.}
 
 \item{association}{one of \code{"unstructured"} (default), \code{"uniform"}, or
-\code{"nonassociative"}, which specify the association matrix of the model.}
+\code{"non-associative"}, which specify the association matrix of the model.}
 
 \item{copula}{character; informs which normal scale mixture distribution
 should be used to generate the NSM copula. Currently,

@@ -28,7 +28,7 @@
 #'     regression structure. The links \code{"log"} (default) and \code{"identity"} are currently
 #'     available. If all links are the same, it is sufficient to enter only one character.
 #' @param association one of \code{"unstructured"} (default), \code{"uniform"}, or
-#'     \code{"nonassociative"}, which specify the association matrix of the model.
+#'     \code{"non-associative"}, which specify the association matrix of the model.
 #' @param copula character; informs which normal scale mixture distribution
 #'     should be used to generate the NSM copula. Currently,
 #'     the copulas available are: Gaussian (\code{"gaussian"}),
@@ -186,7 +186,7 @@
 bcsnsm <- function(formula, data, subset, na.action,
                    margins = "bcno",
                    links = "log",
-                   association = c("unstructured", "uniform", "nonassociative"),
+                   association = c("unstructured", "uniform", "non-associative"),
                    copula = c("gaussian", "t", "slash", "hyp"),
                    eta = NULL,
                    control = control_fit(...), ...)
@@ -255,8 +255,11 @@ bcsnsm <- function(formula, data, subset, na.action,
   qPSI <- mcopula$qPSI
   dgf <- mcopula$dgf
 
-  association <- match.arg(association, c("unstructured", "uniform", "nonassociative"))
-  association <- get(association, envir = asNamespace("bcsnsm"))(d)
+  association <- match.arg(association, c("unstructured", "uniform", "non-associative"))
+  if (association == "non-associative") 
+    association <- nonassociative(d)
+  else
+    association <- get(association, envir = asNamespace("bcsnsm"))(d)
 
   ## Optimization ----
 
