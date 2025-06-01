@@ -11,7 +11,7 @@
 )
 }
 \arguments{
-\item{object}{an \code{"bcsnsm"} object.}
+\item{object}{an object of class \code{"bcsnsm"}, a result of a call to \code{\link{bcsnsm}}.}
 
 \item{type}{character; specifies which residual should be extracted. The available options are
 \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and \code{"epsilon"}.

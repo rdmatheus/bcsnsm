@@ -8,8 +8,6 @@
 \alias{vcov.bcsnsm}
 \alias{logLik.bcsnsm}
 \alias{AIC.bcsnsm}
-\alias{summary.bcsnsm}
-\alias{print.summary.bcsnsm}
 \title{Methods for BCS-NSM Multivariate Regression Fits}
 \usage{
 \method{model.frame}{bcsnsm}(formula, ...)
@@ -23,17 +21,13 @@
 \method{logLik}{bcsnsm}(object, ...)
 
 \method{AIC}{bcsnsm}(object, ..., k = 2)
-
-\method{summary}{bcsnsm}(object, ...)
-
-\method{print}{summary.bcsnsm}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{formula}{a model \link{formula} or \link{terms} object or an \code{"sdlrm"} object.}
 
 \item{...}{additional argument(s) for methods.}
 
-\item{object}{an object of class \code{"bcsnsm"}.}
+\item{object}{an object of class \code{"bcsnsm"}, a result of a call to \code{\link{bcsnsm}}.}
 
 \item{parm}{a character; specifies which set of parameters should be used to extract the
 asymptotic covariance matrix of the maximum likelihood estimators (for \code{vcov} function). The options are 
