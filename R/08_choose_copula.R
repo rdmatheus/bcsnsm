@@ -50,7 +50,11 @@
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
+<<<<<<< HEAD
 #' \donttest{
+=======
+#' \dontest{
+>>>>>>> ef3c7800e6c7e5a3374a95aea1e935049db6d36b
 #' # Data set: macronutrients (for description run ?macronutrients)
 #' # Consider modeling the animal and plant protein regarding income level
 #' 
