@@ -32,7 +32,6 @@ Imports:
     mvnfast,
     Rcpp (>= 1.0.11),
     Rfast,
-    sfsmisc
 LinkingTo: Rcpp,
            RcppArmadillo,
            RcppEigen,
