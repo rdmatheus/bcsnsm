@@ -44,6 +44,11 @@ usage and available methods.
 ``` r
 ## Loading packages
 library(bcsnsm)
+library(ggplot2)
+#> Warning: pacote 'ggplot2' foi compilado no R versão 4.4.3
+
+## Setting the ggplot theme
+theme_set(theme_bw())
 ```
 
 ### `macronutrients` dataset
@@ -62,18 +67,18 @@ cholesterol (*mg*). The dataset also provides socioeconomic variables.
 
 ``` r
 str(macronutrients)
-#> Classes 'tbl_df', 'tbl' and 'data.frame':    322 obs. of  11 variables:
-#>  $ animal_p   : num  53.2 70.2 192.5 36 44.7 ...
-#>  $ plant_p    : num  25.1 19.1 46.4 34.8 37.6 ...
-#>  $ fiber      : num  12.3 13.2 24.3 26.1 18.5 ...
-#>  $ carb       : num  189 117 518 148 163 ...
-#>  $ total_fat  : num  84.5 48.3 311.6 39.2 76.4 ...
-#>  $ cholesterol: num  250 175 1257 277 133 ...
+#> tibble [322 × 11] (S3: tbl_df/tbl/data.frame)
+#>  $ animal_p   : num [1:322] 53.2 70.2 192.5 36 44.7 ...
+#>  $ plant_p    : num [1:322] 25.1 19.1 46.4 34.8 37.6 ...
+#>  $ fiber      : num [1:322] 12.3 13.2 24.3 26.1 18.5 ...
+#>  $ carb       : num [1:322] 189 117 518 148 163 ...
+#>  $ total_fat  : num [1:322] 84.5 48.3 311.6 39.2 76.4 ...
+#>  $ cholesterol: num [1:322] 250 175 1257 277 133 ...
 #>  $ gender     : Factor w/ 2 levels "Female","Male": 1 1 2 1 1 1 2 1 2 1 ...
-#>  $ age        : num  71 67 61 62 65 64 64 62 69 76 ...
+#>  $ age        : num [1:322] 71 67 61 62 65 64 64 62 69 76 ...
 #>  $ education  : Factor w/ 2 levels "illiterate_elementary",..: 1 1 2 2 1 1 2 2 1 1 ...
 #>  $ income     : Factor w/ 4 levels "I","II","III",..: 1 3 4 4 1 1 2 3 1 1 ...
-#>  $ npeople    : num  4 4 3 3 1 4 4 4 2 1 ...
+#>  $ npeople    : num [1:322] 4 4 3 3 1 4 4 4 2 1 ...
 #>  - attr(*, "na.action")= 'omit' Named int [1:43] 10 37 70 84 89 90 117 119 129 135 ...
 #>   ..- attr(*, "names")= chr [1:43] "10" "37" "70" "84" ...
 ```
@@ -89,9 +94,9 @@ mvplot(macronutrients[, 1:6], method = "kendall")
 
 ### Regression modeling
 
-The main function of the package is `bcsnsmreg()`, which performs
-maximum likelihood estimation for BCS-NSM regression models. For
-details, see the documentation with `?bcsnsmreg`.
+The main function of the package is `bcsnsm()`, which performs maximum
+likelihood estimation for BCS-NSM regression models. For details, see
+the documentation with `?bcsnsm`.
 
 This function allows users to specify different Box-Cox symmetric
 marginal distributions, association structures, and copulas. Currently,
@@ -121,8 +126,8 @@ components. We suggest the following steps:
 2.  Given the selected marginal distributions, specify a copula;
 3.  Based on the chosen marginal distributions and copula, refine the
     model by removing non-significant explanatory variables. We will
-    illustrate the use of the `bcsnsmreg()` function by fitting a
-    BCS-NSM regression to the `macronutrient` dataset.
+    illustrate the use of the `bcsnsm()` function by fitting a BCS-NSM
+    regression to the `macronutrient` dataset.
 
 #### Step 1:
 
@@ -132,32 +137,30 @@ carbohydrate, total fat, and cholesterol. These variables are modeled as
 functions of gender, age, education level, number of people in the
 household, and income. The reference model assumes “bcno” distributions
 for all marginals and a Gaussian copula. These are the default
-specifications of the `bcsnsmreg()` function. Below, we present the
-summary of the fit and the normal probability plots of the marginal
-quantile residuals.
+specifications of the `bcsnsm()` function. Below, we present the summary
+of the fit and the normal probability plots of the marginal quantile
+residuals.
 
 ``` r
 ## Reference model
-fit0 <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
-                  gender + age + education + npeople + income, data = macronutrients)
+fit0 <- bcsnsm(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                 gender + age + education + npeople + income, data = macronutrients)
 
-# Summary
+# Summary (see ?summary.bcsnsm)
 summary(fit0)
 #> 
-#> Multivariate BCS-NSM Regression with Gaussian Copula
-#> 
+#> Multivariate BCS-NSM Regression
 #> 
 #> Call:
-#> 
-#> bcsnsmreg(formula = animal_p + plant_p + fiber + carb + total_fat + 
+#> bcsnsm(formula = animal_p + plant_p + fiber + carb + total_fat + 
 #>     cholesterol ~ gender + age + education + npeople + income, 
 #>     data = macronutrients)
 #> 
-#> 
 #> Quantile residuals:
-#> 
 #>      Mean Std. dev. Skewness Kurtosis
-#>   -0.1544     1.292   0.7136    4.644
+#>   -0.1544    1.2924   0.7136   4.6439
+#> 
+#> Marginal models:
 #> 
 #> animal_p ~ Box-Cox Normal Distribution:
 #> 
@@ -280,7 +283,6 @@ summary(fit0)
 #> lambda 0.2970     0.0411
 #> 
 #> Unstructured association matrix:
-#> 
 #>             animal_p plant_p   fiber   carb total_fat cholesterol
 #> animal_p           .       .       .      .         .           .
 #> plant_p       0.1460       .       .      .         .           .
@@ -290,9 +292,13 @@ summary(fit0)
 #> cholesterol   0.6458  0.1353 -0.0059 0.2913    0.5985           .
 #> 
 #> --- 
-#> logLik: -8908.079 | AIC: 17966.16 | BIC: 18249.25
+#> Margins: bcno bcno bcno bcno bcno bcno 
+#> Copula: Gaussian 
+#> Association: Unstructured 
+#> logLik: -8908.079 on 247 df 
+#> AIC: 17966.16 | BIC: 18249.25
 
-# Normal probability plot
+# Normal probability plot (see ?plot.bcsnsm)
 plot(fit0, "marginal", panel = c(2, 3))
 ```
 
@@ -306,28 +312,26 @@ analysis, we chose the following marginal distributions: “bcloii”,
 
 ``` r
 ## Improved model
-fit_gauss <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
-                  gender + age + education + npeople + income, data = macronutrients,
-                  margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"))
+fit_gauss <- bcsnsm(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+                      gender + age + education + npeople + income, data = macronutrients,
+                    margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"))
 
 # Summary
 summary(fit_gauss)
 #> 
-#> Multivariate BCS-NSM Regression with Gaussian Copula
-#> 
+#> Multivariate BCS-NSM Regression
 #> 
 #> Call:
-#> 
-#> bcsnsmreg(formula = animal_p + plant_p + fiber + carb + total_fat + 
+#> bcsnsm(formula = animal_p + plant_p + fiber + carb + total_fat + 
 #>     cholesterol ~ gender + age + education + npeople + income, 
 #>     data = macronutrients, margins = c("bcloii", "bcloii", 
 #>         "bct", "bcno", "bcno", "bcloii"))
 #> 
-#> 
 #> Quantile residuals:
+#>      Mean Std. dev. Skewness Kurtosis
+#>   -0.0979    1.2173     0.65   4.6318
 #> 
-#>       Mean Std. dev. Skewness Kurtosis
-#>   -0.09786     1.217     0.65    4.632
+#> Marginal models:
 #> 
 #> animal_p ~ Box-Cox Type II Logistic Distribution:
 #> 
@@ -451,7 +455,6 @@ summary(fit_gauss)
 #> lambda 0.2442     0.0571
 #> 
 #> Unstructured association matrix:
-#> 
 #>             animal_p plant_p   fiber   carb total_fat cholesterol
 #> animal_p           .       .       .      .         .           .
 #> plant_p       0.1420       .       .      .         .           .
@@ -461,7 +464,11 @@ summary(fit_gauss)
 #> cholesterol   0.6394  0.1314 -0.0148 0.2887    0.5877           .
 #> 
 #> --- 
-#> logLik: -8890.263 | AIC: 17932.53 | BIC: 18219.39
+#> Margins: bcloii bcloii bct bcno bcno bcloii 
+#> Copula: Gaussian 
+#> Association: Unstructured 
+#> logLik: -8890.263 on 246 df 
+#> AIC: 17932.53 | BIC: 18219.39
 
 # Normal probability plot
 plot(fit_gauss, "marginal", panel = c(2, 3))
@@ -469,9 +476,9 @@ plot(fit_gauss, "marginal", panel = c(2, 3))
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-#### Step 2: Choice of copula
+#### Step 2:
 
-The copula can be specified in the `bcsnsmreg()` function using the
+The copula can be specified in the `bcsnsm()` function using the
 `copula` argument (character). The available options are: Gaussian
 (`copula = "gaussian"`), Student’s $t$ (`copula = "t"`), slash
 (`copula = "slash"`), and hyperbolic (`copula = "hyp"`).
@@ -489,7 +496,7 @@ $\eta = 0.9$.
 
 ``` r
 ## Fit with t copula
-fit_t <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+fit_t <- bcsnsm(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
                   gender + age + education + npeople + income, data = macronutrients,
                   margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"),
                   copula = "t", eta = 0.9)
@@ -497,21 +504,19 @@ fit_t <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
 # Summary
 summary(fit_t)
 #> 
-#> Multivariate BCS-NSM Regression with T(0.9) Copula
-#> 
+#> Multivariate BCS-NSM Regression
 #> 
 #> Call:
-#> 
-#> bcsnsmreg(formula = animal_p + plant_p + fiber + carb + total_fat + 
+#> bcsnsm(formula = animal_p + plant_p + fiber + carb + total_fat + 
 #>     cholesterol ~ gender + age + education + npeople + income, 
 #>     data = macronutrients, margins = c("bcloii", "bcloii", 
 #>         "bct", "bcno", "bcno", "bcloii"), copula = "t", eta = 0.9)
 #> 
-#> 
 #> Quantile residuals:
-#> 
 #>      Mean Std. dev. Skewness Kurtosis
-#>   -0.0144     1.069   0.1011    2.937
+#>   -0.0144    1.0689   0.1011   2.9369
+#> 
+#> Marginal models:
 #> 
 #> animal_p ~ Box-Cox Type II Logistic Distribution:
 #> 
@@ -635,7 +640,6 @@ summary(fit_t)
 #> lambda 0.1768     0.0540
 #> 
 #> Unstructured association matrix:
-#> 
 #>             animal_p plant_p  fiber   carb total_fat cholesterol
 #> animal_p           .       .      .      .         .           .
 #> plant_p       0.1459       .      .      .         .           .
@@ -645,7 +649,11 @@ summary(fit_t)
 #> cholesterol   0.6782  0.1396 0.0060 0.3109    0.6344           .
 #> 
 #> --- 
-#> logLik: -8856.931 | AIC: 17867.86 | BIC: 18158.5
+#> Margins: bcloii bcloii bct bcno bcno bcloii 
+#> Copula: T(0.9) 
+#> Association: Unstructured 
+#> logLik: -8856.931 on 245 df 
+#> AIC: 17867.86 | BIC: 18158.5
 ```
 
 ### Step III: Variable selection
@@ -657,14 +665,14 @@ from the “bcno” distribution to an “lno” distribution, since the
 confidence interval for the “lambda” parameter of this marginal contains
 zero.
 
-The `bcsnsmreg()` function uses features inherited from the `Formula`
+The `bcsnsm()` function uses features inherited from the `Formula`
 package (Zeileis and Croissant, 2010) and allows different regression
 structures to be specified for each marginal distribution using the `|`
 operator.
 
 ``` r
 ## Final model
-fit <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
+fit <- bcsnsm(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
                  gender | gender | gender + education | 
                  gender + age | gender | gender, data = macronutrients,
                  margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", "bcloii"),
@@ -673,22 +681,20 @@ fit <- bcsnsmreg(animal_p + plant_p + fiber + carb + total_fat + cholesterol ~
 # Summary
 summary(fit)
 #> 
-#> Multivariate BCS-NSM Regression with T(0.9) Copula
-#> 
+#> Multivariate BCS-NSM Regression
 #> 
 #> Call:
-#> 
-#> bcsnsmreg(formula = animal_p + plant_p + fiber + carb + total_fat + 
+#> bcsnsm(formula = animal_p + plant_p + fiber + carb + total_fat + 
 #>     cholesterol ~ gender | gender | gender + education | 
 #>     gender + age | gender | gender, data = macronutrients, 
 #>     margins = c("bcloii", "bcloii", "bct", "bcno", "bcno", 
 #>         "bcloii"), copula = "t", eta = 0.9)
 #> 
-#> 
 #> Quantile residuals:
+#>      Mean Std. dev. Skewness Kurtosis
+#>   -0.0138    1.0528     0.07   3.0608
 #> 
-#>       Mean Std. dev. Skewness Kurtosis
-#>   -0.01382     1.053  0.07003    3.061
+#> Marginal models:
 #> 
 #> animal_p ~ Box-Cox Type II Logistic Distribution:
 #> 
@@ -778,7 +784,6 @@ summary(fit)
 #> lambda 0.1768     0.0527
 #> 
 #> Unstructured association matrix:
-#> 
 #>             animal_p plant_p  fiber   carb total_fat cholesterol
 #> animal_p           .       .      .      .         .           .
 #> plant_p       0.1480       .      .      .         .           .
@@ -788,7 +793,11 @@ summary(fit)
 #> cholesterol   0.6776  0.1398 0.0058 0.3127    0.6328           .
 #> 
 #> --- 
-#> logLik: -8865.572 | AIC: 17817.14 | BIC: 17979.45
+#> Margins: bcloii bcloii bct bcno bcno bcloii 
+#> Copula: T(0.9) 
+#> Association: Unstructured 
+#> logLik: -8865.572 on 279 df 
+#> AIC: 17817.14 | BIC: 17979.45
 ```
 
 In addition to marginal quantile residuals, the `bcsnsm` package
