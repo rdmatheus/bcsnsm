@@ -51,6 +51,7 @@ The function \code{summary.bcsnsm} returns an object of class \code{"summary.bcs
 \code{summary} method for class \code{"bcsnsm"}.
 }
 \examples{
+\donttest{
 # Data set: macronutrients (for description run ?macronutrients)
 # Consider modeling the animal and plant protein regarding income level
 
@@ -73,6 +74,7 @@ summary(fit)
 ## Summary with a specific margin
 print(summary(fit), margin = 1)
 print(summary(fit), margin = 2)
+}
 }
 \references{
 Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and

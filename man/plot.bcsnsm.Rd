@@ -9,6 +9,7 @@
   type = c("quantile", "marginal", "mahalanobis", "epsilon"),
   levels = c(0.1, 0.01, 0.001, 1e-04),
   panel = NULL,
+  labels,
   ...
 )
 }
@@ -24,6 +25,13 @@ are \code{"quantile"} (default), \code{"marginal"}, \code{"mahalanobis"}, and
 \item{panel}{a vector of the form \code{c(nr, nc)} with the number of rows and columns, where
 the figures will be drawn in an \code{nr-}by\code{-nc} array on the device. Used
 only when \code{type = "marginal"}.}
+
+\item{labels}{an optional named vector used to relabel the facets in
+marginal diagnostic plots (i.e., when \code{type = "marginal"}). The names
+of \code{labels} must match the variable names of the marginal responses,
+and the corresponding values provide the labels to be displayed at the top
+of each panel. If \code{NULL} (default), the original variable names are
+used.}
 
 \item{...}{further arguments passed to or from other methods.}
 }
@@ -59,6 +67,7 @@ The argument \code{type} specifies what type of diagnostic plot should be produc
     \code{\link{residuals.bcsnsm}} and in Medeiros and Ferrari (2025).
 }
 \examples{
+\donttest{
 # Data set: macronutrients (for description run ?macronutrients)
 # Consider modeling the animal and plant protein regarding income level
 
@@ -84,6 +93,7 @@ plot(fit, type = "mahalanobis")
 
 ## The epsilon's transformations
 plot(fit, type = "epsilon")
+}
 }
 \references{
 Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and

@@ -68,6 +68,7 @@ This function evaluates the profiled log-likelihood over a grid of \code{eta} va
 the fitted models for each one. The optimal value can be selected based on the log-likelihood, AIC, or BIC.
 }
 \examples{
+\donttest{
 # Data set: macronutrients (for description run ?macronutrients)
 # Consider modeling the animal and plant protein regarding income level
 
@@ -97,6 +98,7 @@ fit_t
 # Fit with eta = 0.9
 fit_t[["0.9"]]
 summary(fit_t[["0.9"]])
+}
 }
 \references{
 Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and applications to

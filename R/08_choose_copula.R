@@ -50,6 +50,7 @@
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
+#' \donttest{
 #' # Data set: macronutrients (for description run ?macronutrients)
 #' # Consider modeling the animal and plant protein regarding income level
 #' 
@@ -79,6 +80,7 @@
 #' # Fit with eta = 0.9
 #' fit_t[["0.9"]]
 #' summary(fit_t[["0.9"]])
+#' }
 #' @export
 choose_copula <- function(object, grid = seq(0.5, 0.98, 0.04), copula, trace = TRUE, plot = TRUE,
                           control = control_fit(...), ...) {
