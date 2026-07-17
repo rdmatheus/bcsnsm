@@ -7,7 +7,7 @@
 #'     (NSM) copula.
 #'
 #' @param formula a symbolic description of the model to be fitted to each marginal distribution.
-#'     For instance, \code{formula = c(y1 + y2 + y3 ~ x1 + x2 | x1 + x3 | x2 + x3)} fits a
+#'     For instance, \code{formula = y1 + y2 + y3 ~ x1 + x2 | x1 + x3 | x2 + x3} fits a
 #'     3-variate BCS-NSM regression that models \code{y1} as a function of \code{x1} and \code{x2};
 #'     \code{y2} as a function of \code{x1} and \code{x3}; and \code{y3} as a function of \code{x2}
 #'     and \code{x3}. See details below.
@@ -129,7 +129,7 @@
 #' @author Rodrigo M. R. de Medeiros <\email{rodrigo.matheus@ufrn.br}>
 #'
 #' @examples
-#' \donttest{#' # Data set: macronutrients (for description run ?macronutrients)
+#' \donttest{# Data set: macronutrients (for description run ?macronutrients)
 #' # Consider modeling the animal and plant protein regarding income level
 #' 
 #' ## Response distribution:
@@ -144,14 +144,14 @@
 #' fit0
 #' 
 #' ## Marginal quantile residuals of the reference model
-#' plot(fit0, "marginal", panel = c(2, 3))
+#' plot(fit0, "marginal")
 #' 
 #' ## Step 2: Improve the fit on margins
 #' fit_gaussian <- bcsnsm(animal_p + plant_p ~ income | income, data = macronutrients,
 #'                        margins = c("bcloii", "bct"))
 #' 
 #' ## Marginal quantile residuals of the improved model
-#' plot(fit_gaussian, "marginal", panel = c(2, 3))
+#' plot(fit_gaussian, "marginal")
 #' 
 #' ## Step 3: Choose a copula
 #' 
@@ -170,6 +170,7 @@
 #' ## The epsilon's transformations
 #' plot(fit_gaussian, "epsilon")
 #' plot(fit_t[["0.9"]], "epsilon")}
+#' 
 #' @references
 #'  Ferrari, S. L. P., and Fumes, G. (2017). Box-Cox symmetric distributions and
 #'      applications to nutritional data. \emph{AStA Advances in Statistical Analysis}, \bold{101}, 321--344.

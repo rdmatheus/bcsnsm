@@ -615,25 +615,30 @@ lhp <- function(x) {
 
 ## Probability density function
 dhyp <- function(x, mu = 0, sigma = 1, nu, log = FALSE) {
+  
   if (is.matrix(x)) d <- ncol(x) else d <- 1L
-
+  
   maxl <- max(c(length(x), length(mu), length(sigma), length(nu)))
-
+  
   x <- rep(x, length.out = maxl)
   mu <- rep(mu, length.out = maxl)
   sigma <- rep(sigma, length.out = maxl)
   nu <- rep(nu, length.out = maxl)
-
+  
   pmf <- rep(-Inf, length.out = maxl)
-
+  
   # NaN index
   pmf[which(sigma <= 0 | nu <= 0)] <- NaN
-
+  
   id <- which(!is.nan(pmf))
-  pmf[id] <- hyp_PDF(x[id], mu[id], sigma[id], nu[id], log)
-
+  u <- (x - mu)^2 / sigma^2
+  pmf[id] <- - nu[id] * sqrt(1 + u[id]) - log(2) - log(besselK(nu[id], nu = 1)) - log(sigma)
+  
+  if (!log) pmf <- exp(pmf)
   if (d > 1L) matrix(pmf, ncol = d) else pmf
+  
 }
+
 
 ## Cumulative distribution function
 phyp <- function(q, mu = 0, sigma = 1, nu, log.p = FALSE) {
